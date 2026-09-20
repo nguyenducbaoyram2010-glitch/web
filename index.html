@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Study Check 2.0 - Nhóm 11C1</title>
+<title>AI Study Check - Lớp 11C1</title>
 
 <style>
 :root{
@@ -262,82 +262,6 @@ select,input{
     font-weight:900;
 }
 
-.chart-row{
-    margin-bottom:20px;
-}
-
-.chart-label{
-    font-size:14px;
-    font-weight:700;
-    margin-bottom:6px;
-}
-
-.chart-track{
-    height:22px;
-    background:#e2e8f0;
-    border-radius:20px;
-    overflow:hidden;
-    position:relative;
-}
-
-.chart-bar{
-    height:100%;
-    width:0;
-    transition:width .8s ease;
-}
-
-.chart-value{
-    position:absolute;
-    right:8px;
-    top:0;
-    font-size:12px;
-    font-weight:800;
-}
-
-.analysis-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:15px;
-}
-
-@media(max-width:650px){
-    .analysis-grid{grid-template-columns:1fr}
-}
-
-.analysis-box{
-    padding:18px;
-    border-radius:14px;
-    border:1px solid var(--border);
-    background:#fff;
-}
-
-.analysis-title{
-    font-weight:800;
-    font-size:17px;
-    margin-bottom:7px;
-}
-
-.analysis-score{
-    font-size:28px;
-    font-weight:900;
-    margin-bottom:7px;
-}
-
-.strength{
-    border-left:5px solid var(--green);
-    background:#f0fdf4;
-}
-
-.warning{
-    border-left:5px solid var(--orange);
-    background:#fff7ed;
-}
-
-.danger{
-    border-left:5px solid var(--red);
-    background:#fff1f2;
-}
-
 .ai-box{
     background:#f0fdf4;
     border:1px solid #bbf7d0;
@@ -367,21 +291,13 @@ select,input{
     margin-top:25px;
 }
 
-.hidden{display:none!important}
-
 .toolbar{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
 .btn-small{padding:10px 15px;font-size:14px}
-.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
-@media(max-width:700px){.dashboard-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:450px){.dashboard-grid{grid-template-columns:1fr}}
-.stat-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff}
-.stat-label{font-size:12px;color:var(--muted);font-weight:800}.stat-number{font-size:28px;font-weight:900}
-.radar-wrap{display:flex;justify-content:center;align-items:center;margin:10px 0 25px;overflow:auto}
-.radar-wrap svg{max-width:520px;width:100%;height:auto}
-.history-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px}
-.history-table{width:100%;border-collapse:collapse;min-width:720px;font-size:13px}.history-table th,.history-table td{padding:10px;border-bottom:1px solid var(--border);text-align:left}.history-table th{background:#f8fafc}
+.dashboard-grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;margin:18px 0}
+.stat-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;text-align:center}
+.stat-label{font-size:12px;color:var(--muted);font-weight:800}.stat-number{font-size:36px;font-weight:900;color:var(--primary)}
 .tip{font-size:13px;color:var(--muted);margin-top:7px}
-@media print{body{background:#fff}.container{max-width:none;margin:0;padding:0}.screen:not(#result){display:none!important}.screen#result{display:block!important;box-shadow:none;margin:0;padding:0}.toolbar,.footer-note,.notice{display:none!important}.card{box-shadow:none}.radar-wrap svg{max-width:500px}}
+@media print{body{background:#fff}.container{max-width:none;margin:0;padding:0}.screen:not(#result){display:none!important}.screen#result{display:block!important;box-shadow:none;margin:0;padding:0}.toolbar,.footer-note,.notice{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
 
@@ -503,31 +419,13 @@ select,input{
         </div>
     </div>
 
-    <h3>📊 Hồ sơ năng lực</h3>
-    <div id="charts"></div>
-
-    <h3>🔎 Phân tích chi tiết</h3>
-    <div class="analysis-grid" id="analysis-grid"></div>
-
-    <div class="ai-box">
-        <div class="ai-header">🤖 Phân tích tổng hợp</div>
-        <div class="ai-summary" id="ai-summary"></div>
-        <div class="advice-box" id="advice-box"></div>
-    </div>
-
-    <div id="radar-section">
-      <h3>🕸️ Biểu đồ radar</h3>
-      <p class="tip">Trên radar, trục “Độc lập” đã đảo chiều từ Phụ thuộc AI để tất cả trục đều mang ý nghĩa “cao hơn = tốt hơn”.</p>
-      <div class="radar-wrap" id="radar-chart"></div>
-    </div>
-
     <div class="toolbar">
-      <button class="btn btn-green btn-small" onclick="saveCurrentResult()">💾 Lưu kết quả</button>
+      <button class="btn btn-green btn-small" onclick="saveCurrentResult()">💾 Đồng bộ lại kết quả</button>
       <button class="btn btn-secondary btn-small" onclick="window.print()">🖨️ In / Lưu PDF</button>
       <button class="btn btn-secondary btn-small" onclick="openDashboard()">📈 Dashboard</button>
     </div>
 
-    <div id="save-status" class="tip text-center"></div>
+    <div id="save-status" class="tip text-center" style="font-weight:bold; color:var(--green); margin-top:10px;"></div>
 
     <div class="notice" style="margin-top:25px">
         <strong>📌 Lưu ý khi đọc kết quả:</strong><br>
@@ -543,9 +441,12 @@ select,input{
 <!-- ================= DASHBOARD ================= -->
 <section id="dashboard" class="screen card">
   <h2 class="text-center">📈 Dashboard nghiên cứu</h2>
-  <p class="subtitle text-center">Hiển thị dữ liệu thực tế lưu trữ từ máy chủ Google Sheets.</p>
+  <p class="subtitle text-center">Tổng hợp dữ liệu khảo sát từ Google Sheets.</p>
   <div class="dashboard-grid">
-    <div class="stat-card"><div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div><div class="stat-number" id="dash-count">0</div></div>
+    <div class="stat-card">
+      <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
+      <div class="stat-number" id="dash-count">Đang tải...</div>
+    </div>
   </div>
   <div class="toolbar">
     <button class="btn btn-secondary btn-small" onclick="goHome()">🏠 Về trang đầu</button>
@@ -559,16 +460,16 @@ select,input{
 </div>
 
 <script>
-// ==================== CẤU HÌNH API GOOGLE SHEETS ====================
+// ==================== CẤU HÌNH LIÊN KẾT GOOGLE APPS SCRIPT ====================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec";
 
 const DIMENSIONS = {
-    dependency: { name:"Phụ thuộc AI", short:"AI Dependency" },
-    autonomy: { name:"Năng lực tự học", short:"Learning Autonomy" },
-    critical: { name:"Tư duy phản biện", short:"Critical Thinking" },
-    verify: { name:"Kiểm chứng thông tin AI", short:"AI Verification" },
-    apply: { name:"Vận dụng kiến thức", short:"Knowledge Application" },
-    responsible: { name:"Sử dụng AI có trách nhiệm", short:"Responsible AI" }
+    dependency: { name:"Phụ thuộc AI" },
+    autonomy: { name:"Năng lực tự học" },
+    critical: { name:"Tư duy phản biện" },
+    verify: { name:"Kiểm chứng thông tin AI" },
+    apply: { name:"Vận dụng kiến thức" },
+    responsible: { name:"Sử dụng AI có trách nhiệm" }
 };
 
 const SCALE = [
@@ -655,7 +556,6 @@ let currentSubject = "natural";
 let questions = [];
 let currentQuestion = 0;
 let answers = [];
-let lastResult = null;
 let lastOverall = 0;
 
 function showScreen(id) {
@@ -779,13 +679,12 @@ function renderResults(result) {
     document.getElementById("result-badge").textContent = badge;
     document.getElementById("result-desc").textContent = desc;
 
-    lastResult = result;
     lastOverall = overall;
-    document.getElementById("save-status").textContent = "";
+    document.getElementById("save-status").textContent = "Đang đồng bộ dữ liệu...";
 
     showScreen("result");
 
-    // TỰ ĐỘNG GỬI KẾT QUẢ VỀ GOOGLE SHEETS KHI HOÀN THÀNH BÀI LÀM
+    // TỰ ĐỘNG GỬI KẾT QUẢ VỀ GOOGLE SHEETS KHI HOÀN THÀNH
     sendToGoogleSheets({
         participantCode: document.getElementById("participant-code").value,
         level: document.getElementById("student-level").value,
@@ -794,31 +693,53 @@ function renderResults(result) {
     });
 }
 
-// ==================== TÍCH HỢP GỬI VÀ TẢI DỮ LIỆU GOOGLE SHEETS ====================
+// ==================== TÍCH HỢP GỬI VÀ LẤY DỮ LIỆU GOOGLE SHEETS ====================
 
 function sendToGoogleSheets(data) {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("DÁN_URL")) return;
+    if (!SCRIPT_URL) return;
+
+    const formData = new URLSearchParams();
+    formData.append("participantCode", data.participantCode || "");
+    formData.append("level", data.level || "");
+    formData.append("subject", data.subject || "");
+    formData.append("overall", data.overall || 0);
+
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString()
     })
     .then(() => {
-        document.getElementById("save-status").textContent = "✓ Đã đồng bộ kết quả lên hệ thống nghiên cứu chung!";
+        const statusElem = document.getElementById("save-status");
+        if (statusElem) {
+            statusElem.textContent = "✓ Đã đồng bộ kết quả lên Google Sheets!";
+        }
     })
-    .catch(err => console.error("Lỗi gửi dữ liệu:", err));
+    .catch(err => {
+        console.error("Lỗi gửi dữ liệu:", err);
+        const statusElem = document.getElementById("save-status");
+        if (statusElem) {
+            statusElem.textContent = "❌ Lỗi đồng bộ. Hãy bấm nút bên dưới để thử lại.";
+        }
+    });
 }
 
 function fetchTotalSubmissions() {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("DÁN_URL")) return;
+    if (!SCRIPT_URL) return;
     fetch(SCRIPT_URL)
         .then(res => res.json())
         .then(data => {
             const countElem = document.getElementById("dash-count");
             if (countElem) countElem.innerText = data.total || 0;
         })
-        .catch(err => console.error("Lỗi tải tổng lượt:", err));
+        .catch(err => {
+            console.error("Lỗi tải tổng lượt:", err);
+            const countElem = document.getElementById("dash-count");
+            if (countElem) countElem.innerText = "Chưa kết nối";
+        });
 }
 
 function saveCurrentResult() {
@@ -838,7 +759,7 @@ function openDashboard() {
 function restartQuiz() { startQuiz(); }
 function goHome() { showScreen("home"); }
 
-// Tải số lượt khi vừa mở trang
+// Tải tổng lượt làm bài ngay khi mở trang
 document.addEventListener("DOMContentLoaded", fetchTotalSubmissions);
 </script>
 </body>
