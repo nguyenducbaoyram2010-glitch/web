@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Study Check 2.0 - Nhóm 11C1</title>
+<title>AI Study Check 4.0 - Nhóm 11C1</title>
 
 <style>
 :root{
@@ -180,7 +180,7 @@ select,input{
 }
 
 .option{
-    border:2px solid var(--border);
+border:2px solid var(--border);
     border-radius:11px;
     padding:15px 18px;
     cursor:pointer;
@@ -308,9 +308,9 @@ select,input{
 <!-- ================= HOME ================= -->
 <section id="home" class="screen card active text-center">
     <div style="font-size:64px">🧠</div>
-    <h1>AI Study Check 2.0</h1>
+    <h1>AI Study Check 2.1</h1>
     <p class="subtitle">
-        Hệ thống đánh giá mức độ sử dụng AI trong học tập
+Hệ thống đánh giá mức độ sử dụng AI trong học tập
         và năng lực học tập độc lập.
     </p>
 
@@ -346,6 +346,13 @@ select,input{
         Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
     </p>
 
+    <div class="notice" style="text-align:center;background:#f8fafc;border-left:5px solid #4f46e5;margin:18px 0">
+        <strong>📞 Contact with us:</strong>
+        <a href="tel:0868579082" style="color:#4f46e5;font-weight:800;text-decoration:none;">
+            0868579082
+        </a>
+    </div>
+
     <div style="text-align:left;margin:20px 0">
         <label for="participant-code">Mã người tham gia (ẩn danh)</label>
         <input id="participant-code" maxlength="20" placeholder="Ví dụ: 11C1-001 (không nhập họ tên)">
@@ -376,6 +383,7 @@ select,input{
 
     <div class="navigation">
         <button class="btn btn-secondary" id="btn-prev" onclick="prevQuestion()" disabled>← Câu trước</button>
+        <button class="btn btn-secondary" onclick="goHome()">🏠 Trở về trang đầu</button>
         <button class="btn" id="btn-next" onclick="nextQuestion()">Câu sau →</button>
     </div>
 </section>
@@ -383,7 +391,7 @@ select,input{
 <!-- ================= RESULT ================= -->
 <section id="result" class="screen card">
     <h2 class="text-center">Kết Quả Đánh Giá</h2>
-    <p class="text-center subtitle" id="user-display-info"></p>
+<p class="text-center subtitle" id="user-display-info"></p>
 
     <div class="score-card">
         <div class="badge" id="result-badge">ĐANG PHÂN TÍCH</div>
@@ -445,7 +453,7 @@ select,input{
   <div class="dashboard-grid">
     <div class="stat-card">
       <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
-      <div class="stat-number" id="dash-count">Đang tải...</div>
+<div class="stat-number" id="dash-count">Đang tải...</div>
     </div>
   </div>
   <div class="toolbar">
@@ -454,7 +462,11 @@ select,input{
 </section>
 
 <div class="footer-note">
-    AI Study Check 2.0 · Nhóm nghiên cứu 11C1
+    AI Study Check 4.0 · Nhóm nghiên cứu 11C1<br>
+    📞 Contact with us:
+    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">
+        0868579082
+    </a>
 </div>
 
 </div>
@@ -481,151 +493,6 @@ const SCALE = [
     "5 — Hoàn toàn đúng"
 ];
 
-// ==================== KHẢO SÁT ====================
-const SUBJECT_NAMES = {
-    natural: "Tự nhiên",
-    social: "Xã hội",
-    language: "Ngoại ngữ"
-};
-
-const QUESTIONS = [
-    { dimension: "dependency", text: "Tôi thường dùng AI để hoàn thành bài tập mà chưa tự suy nghĩ trước." },
-    { dimension: "dependency", text: "Tôi thấy khó bắt đầu làm bài nếu không có AI hỗ trợ." },
-    { dimension: "dependency", text: "Tôi thường sao chép câu trả lời AI mà không chỉnh sửa." },
-    { dimension: "autonomy", text: "Tôi tự lập kế hoạch học tập và hoàn thành đúng thời hạn." },
-    { dimension: "autonomy", text: "Tôi cố gắng tự tìm cách giải trước khi hỏi AI." },
-    { dimension: "autonomy", text: "Tôi biết chọn tài liệu phù hợp để tự học." },
-    { dimension: "critical", text: "Tôi đặt câu hỏi về các câu trả lời do AI đưa ra." },
-    { dimension: "critical", text: "Tôi so sánh nhiều cách giải trước khi kết luận." },
-    { dimension: "critical", text: "Tôi nhận ra khi lập luận của AI chưa hợp lý." },
-    { dimension: "verify", text: "Tôi kiểm tra lại thông tin AI trả lời bằng nguồn đáng tin cậy." },
-    { dimension: "verify", text: "Tôi kiểm tra công thức, số liệu hoặc trích dẫn do AI tạo ra." },
-    { dimension: "verify", text: "Tôi không xem câu trả lời của AI là luôn chính xác." },
-    { dimension: "apply", text: "Tôi dùng AI để hiểu bài rồi tự vận dụng vào bài mới." },
-    { dimension: "apply", text: "Tôi có thể giải thích lại kiến thức bằng lời của mình." },
-    { dimension: "apply", text: "Tôi sử dụng AI như công cụ hỗ trợ, không thay thế việc học." },
-    { dimension: "responsible", text: "Tôi không dùng AI để gian lận trong kiểm tra hoặc bài thi." },
-    { dimension: "responsible", text: "Tôi ghi rõ nguồn hoặc sự hỗ trợ của AI khi cần thiết." },
-    { dimension: "responsible", text: "Tôi tránh nhập thông tin cá nhân hoặc dữ liệu riêng tư vào AI." }
-];
-
-let currentQuestion = 0;
-let answers = [];
-let currentSubject = "natural";
-let currentSubmissionId = "";
-let lastResult = null;
-let lastOverall = 0;
-
-function showScreen(screenId) {
-    document.querySelectorAll(".screen").forEach(screen => {
-        screen.classList.toggle("active", screen.id === screenId);
-    });
-    window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-function startQuiz() {
-    currentSubject = document.getElementById("student-subject").value;
-    const codeInput = document.getElementById("participant-code");
-
-    if (!codeInput.value.trim()) {
-        codeInput.value = "HS-" + Math.random().toString(36).slice(2, 8).toUpperCase();
-    }
-
-    currentQuestion = 0;
-    answers = Array(QUESTIONS.length).fill(null);
-    currentSubmissionId = makeSubmissionId();
-    showScreen("quiz");
-    renderQuestion();
-}
-
-function renderQuestion() {
-    const question = QUESTIONS[currentQuestion];
-    const answered = answers[currentQuestion];
-    const percent = Math.round(((currentQuestion + 1) / QUESTIONS.length) * 100);
-
-    document.getElementById("progress-text").textContent =
-        `Câu hỏi ${currentQuestion + 1} / ${QUESTIONS.length}`;
-    document.getElementById("progress-percent").textContent = percent + "%";
-    document.getElementById("progress-fill").style.width = percent + "%";
-    document.getElementById("question-num").textContent = "CÂU " + (currentQuestion + 1);
-    document.getElementById("question-category").textContent =
-        DIMENSIONS[question.dimension].name;
-    document.getElementById("question-txt").textContent = question.text;
-
-    document.getElementById("options-container").innerHTML = SCALE.map((label, index) => {
-        const value = index + 1;
-        const selected = answered === value ? " selected" : "";
-        return `<div class="option${selected}" onclick="selectAnswer(${value})">${label}</div>`;
-    }).join("");
-
-    document.getElementById("btn-prev").disabled = currentQuestion === 0;
-    document.getElementById("btn-next").textContent =
-        currentQuestion === QUESTIONS.length - 1 ? "Xem kết quả →" : "Câu sau →";
-}
-
-function selectAnswer(value) {
-    answers[currentQuestion] = value;
-    renderQuestion();
-}
-
-function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-    }
-}
-
-function nextQuestion() {
-    if (answers[currentQuestion] === null) {
-        alert("Bạn hãy chọn một đáp án trước khi tiếp tục.");
-        return;
-    }
-
-    if (currentQuestion < QUESTIONS.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-        return;
-    }
-
-    showResult();
-}
-
-function scoreDimension(dimension) {
-    const values = QUESTIONS
-        .map((question, index) => question.dimension === dimension ? answers[index] : null)
-        .filter(value => value !== null);
-
-    return Math.round((values.reduce((sum, value) => sum + value, 0) / (values.length * 5)) * 100);
-}
-
-function showResult() {
-    const result = {};
-    Object.keys(DIMENSIONS).forEach(key => {
-        result[key] = scoreDimension(key);
-    });
-
-    lastResult = result;
-    lastOverall = Math.round(Object.values(result).reduce((sum, value) => sum + value, 0) / 6);
-
-    document.getElementById("metric-dep").textContent = result.dependency + "%";
-    document.getElementById("metric-autonomy").textContent = result.autonomy + "%";
-    document.getElementById("metric-critical").textContent = result.critical + "%";
-    document.getElementById("metric-verify").textContent = result.verify + "%";
-    document.getElementById("metric-apply").textContent = result.apply + "%";
-    document.getElementById("metric-responsible").textContent = result.responsible + "%";
-    document.getElementById("result-score").textContent = lastOverall + "/100";
-
-    const label = lastOverall >= 75 ? "TÍCH CỰC" : lastOverall >= 50 ? "CẦN CÂN BẰNG" : "CẦN CẢI THIỆN";
-    document.getElementById("result-badge").textContent = label;
-    document.getElementById("result-desc").textContent =
-        "Kết quả giúp bạn nhìn lại cách sử dụng AI trong học tập.";
-    document.getElementById("user-display-info").textContent =
-        `Mã tham gia: ${document.getElementById("participant-code").value} · ${SUBJECT_NAMES[currentSubject]}`;
-
-    showScreen("result");
-    sendToGoogleSheets(currentResultPayload());
-}
-
 // ==================== GỬI DỮ LIỆU GOOGLE SHEETS ====================
 function makeSubmissionId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
@@ -633,7 +500,7 @@ function makeSubmissionId() {
 }
 
 function sendToGoogleSheets(data) {
-  if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
         const statusElem = document.getElementById("save-status");
         if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình URL Google Apps Script.";
         return Promise.resolve(false);
@@ -668,7 +535,7 @@ function sendToGoogleSheets(data) {
     })
     .catch(err => {
         console.error("Lỗi gửi dữ liệu:", err);
-        const statusElem = document.getElementById("save-status");
+const statusElem = document.getElementById("save-status");
         if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
         return false;
     });
@@ -717,64 +584,7 @@ function openDashboard() {
 function restartQuiz() { startQuiz(); }
 function goHome() { showScreen("home"); }
 
-/* Thêm nút về trang đầu và thông tin liên hệ */
-function addHomeAndContact() {
-    const quiz = document.getElementById("quiz");
-
-    if (quiz && !document.getElementById("quick-home-button")) {
-        const actionBox = document.createElement("div");
-        actionBox.style.cssText =
-            "display:flex;justify-content:flex-end;margin-bottom:16px;";
-
-        actionBox.innerHTML = `
-            <button
-                id="quick-home-button"
-                class="btn btn-secondary btn-small"
-                onclick="goHome()"
-            >
-                🏠 Về trang đầu
-            </button>
-        `;
-
-        quiz.insertBefore(actionBox, quiz.firstChild);
-    }
-
-    const home = document.getElementById("home");
-
-    if (home && !document.getElementById("contact-home")) {
-        const contact = document.createElement("p");
-        contact.id = "contact-home";
-        contact.style.cssText = "margin:20px 0 0;color:#64748b;font-size:14px;";
-        contact.innerHTML = `
-            Liên hệ với chúng tôi:
-            <a href="tel:0868579082"
-               style="color:#4f46e5;font-weight:700;text-decoration:none;">
-                0868579082
-            </a>
-        `;
-
-        home.appendChild(contact);
-    }
-
-    const footer = document.querySelector(".footer-note");
-
-    if (footer && !document.getElementById("contact-footer")) {
-        const footerContact = document.createElement("span");
-        footerContact.id = "contact-footer";
-        footerContact.innerHTML = `
-            <br>
-            Liên hệ với chúng tôi:
-            <a href="tel:0868579082">0868579082</a>
-        `;
-
-        footer.appendChild(footerContact);
-    }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    fetchTotalSubmissions();
-    addHomeAndContact();
-});
+document.addEventListener("DOMContentLoaded", fetchTotalSubmissions);
 </script>
 </body>
 </html>
