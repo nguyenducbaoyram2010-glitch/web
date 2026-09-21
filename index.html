@@ -308,7 +308,7 @@ border:2px solid var(--border);
 <!-- ================= HOME ================= -->
 <section id="home" class="screen card active text-center">
     <div style="font-size:64px">🧠</div>
-    <h1>AI Study Check 2.1</h1>
+    <h1>AI Study Check 4.0</h1>
     <p class="subtitle">
 Hệ thống đánh giá mức độ sử dụng AI trong học tập
         và năng lực học tập độc lập.
@@ -345,20 +345,17 @@ Hệ thống đánh giá mức độ sử dụng AI trong học tập
         <strong>Tác giả:</strong>
         Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
     </p>
-
-    <div class="notice" style="text-align:center;background:#f8fafc;border-left:5px solid #4f46e5;margin:18px 0">
-        <strong>📞 Contact with us:</strong>
-        <a href="tel:0868579082" style="color:#4f46e5;font-weight:800;text-decoration:none;">
-            0868579082
-        </a>
+<div style="text-align:left;margin:20px 0">
+    <label for="participant-code">Họ và tên</label>
+    <input
+        id="participant-code"
+        maxlength="50"
+        placeholder="Nhập họ và tên của bạn"
+    >
+    <div class="tip">
+        Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.
     </div>
-
-    <div style="text-align:left;margin:20px 0">
-        <label for="participant-code">Mã người tham gia (ẩn danh)</label>
-        <input id="participant-code" maxlength="20" placeholder="Ví dụ: 11C1-001 (không nhập họ tên)">
-        <div class="tip">Nếu để trống, hệ thống tự tạo mã ngẫu nhiên. Mã chỉ giúp phân biệt các lượt khảo sát.</div>
-    </div>
-
+</div>
     <div class="toolbar">
       <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
       <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
@@ -472,17 +469,13 @@ Hệ thống đánh giá mức độ sử dụng AI trong học tập
 </div>
 
 <script>
-// ==================== CẤU HÌNH GOOGLE SHEETS ====================
-// Sau khi deploy Apps Script, dán URL /exec vào đây.
+// ==================== CẤU HÌNH ====================
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec";
 
-const DIMENSIONS = {
-    dependency: { name:"Phụ thuộc AI" },
-    autonomy: { name:"Năng lực tự học" },
-    critical: { name:"Tư duy phản biện" },
-    verify: { name:"Kiểm chứng thông tin AI" },
-    apply: { name:"Vận dụng kiến thức" },
-    responsible: { name:"Sử dụng AI có trách nhiệm" }
+const SUBJECT_NAMES = {
+    natural: "Tự nhiên",
+    social: "Xã hội",
+    language: "Ngoại ngữ"
 };
 
 const SCALE = [
@@ -493,58 +486,225 @@ const SCALE = [
     "5 — Hoàn toàn đúng"
 ];
 
-// ==================== GỬI DỮ LIỆU GOOGLE SHEETS ====================
+// 20 câu: 4 câu cho mỗi nhóm chính, với dependency là chỉ số "rủi ro"
+// và các nhóm còn lại là năng lực tích cực.
+const QUESTIONS = [
+    {id:1, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường hỏi AI ngay khi không biết cách bắt đầu một bài tập."},
+    {id:2, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường yêu cầu AI giải hoàn chỉnh một bài tập thay vì tự giải trước."},
+    {id:3, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi từng đưa toàn bộ đề bài cho AI và sử dụng trực tiếp câu trả lời."},
+    {id:4, dimension:"dependency", category:"Phụ thuộc AI", text:"Khi bài tập khó, tôi có xu hướng để AI quyết định cách giải quyết thay mình."},
+
+    {id:5, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi thường tự suy nghĩ và thử giải quyết vấn đề trước khi hỏi AI."},
+    {id:6, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tự xác định mình cần làm gì khi gặp một bài tập mới."},
+    {id:7, dimension:"autonomy", category:"Năng lực tự học", text:"Sau khi tham khảo AI, tôi có thể tự làm lại bài mà không cần nhìn câu trả lời."},
+    {id:8, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tiếp tục làm bài khi không có AI hướng dẫn từng bước."},
+
+    {id:9, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể tự giải thích vì sao mình chọn một đáp án hoặc cách giải."},
+    {id:10, dimension:"critical", category:"Tư duy phản biện", text:"Tôi đặt câu hỏi khi câu trả lời của AI chưa có đủ lý do hoặc bằng chứng."},
+    {id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
+    {id:12, dimension:"critical", category:"Tư duy phản biện", text:"Tôi không mặc định cho rằng câu trả lời của AI luôn đúng."},
+
+    {id:13, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi kiểm tra lại thông tin trước khi sử dụng câu trả lời của AI."},
+    {id:14, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi thường so sánh câu trả lời của AI với sách giáo khoa hoặc nguồn khác."},
+    {id:15, dimension:"verify", category:"Kiểm chứng AI", text:"Khi AI đưa ra thông tin quan trọng, tôi chủ động tìm nguồn khác để đối chiếu."},
+    {id:16, dimension:"verify", category:"Kiểm chứng AI", text:"Khi phát hiện AI có thể trả lời sai, tôi chủ động tìm cách kiểm tra và sửa lại."},
+
+    {id:17, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi sử dụng AI như một công cụ hỗ trợ chứ không hoàn toàn thay thế suy nghĩ của mình."},
+    {id:18, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi kiểm tra và chỉnh sửa nội dung AI tạo ra trước khi đưa vào bài làm."},
+    {id:19, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi tránh sử dụng nguyên văn câu trả lời của AI khi chưa hiểu nội dung."},
+    {id:20, dimension:"responsible", category:"AI có trách nhiệm", text:"Tôi cân nhắc tính chính xác và phù hợp của nội dung AI trước khi sử dụng."}
+];
+
+let currentQuestion = 0;
+let answers = {};
+let currentSubject = "natural";
+let currentSubmissionId = "";
+let lastResult = null;
+let lastOverall = 0;
+
 function makeSubmissionId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
+    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2,10);
 }
 
-function sendToGoogleSheets(data) {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
-        const statusElem = document.getElementById("save-status");
-        if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình URL Google Apps Script.";
-        return Promise.resolve(false);
+function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    const target = document.getElementById(id);
+    if (target) target.classList.add("active");
+    window.scrollTo({top:0, behavior:"smooth"});
+}
+
+function startQuiz() {
+    try {
+        const name = document.getElementById("participant-code").value.trim();
+        if (!name) {
+            alert("Vui lòng nhập họ và tên trước khi bắt đầu.");
+            document.getElementById("participant-code").focus();
+            return;
+        }
+
+        currentSubject = document.getElementById("student-subject").value;
+        currentQuestion = 0;
+        answers = {};
+        currentSubmissionId = makeSubmissionId();
+        lastResult = null;
+        lastOverall = 0;
+
+        showScreen("quiz");
+        renderQuestion();
+    } catch (error) {
+        console.error(error);
+        alert("Không thể bắt đầu bài kiểm tra. Vui lòng tải lại trang và thử lại.");
+    }
+}
+
+function renderQuestion() {
+    const q = QUESTIONS[currentQuestion];
+    if (!q) return;
+
+    const total = QUESTIONS.length;
+    const num = currentQuestion + 1;
+    const percent = Math.round((num / total) * 100);
+
+    document.getElementById("progress-text").textContent = `Câu hỏi ${num} / ${total}`;
+    document.getElementById("progress-percent").textContent = `${percent}%`;
+    document.getElementById("progress-fill").style.width = `${percent}%`;
+    document.getElementById("question-num").textContent = `CÂU ${num}`;
+    document.getElementById("question-category").textContent = q.category;
+    document.getElementById("question-txt").textContent = q.text;
+
+    const box = document.getElementById("options-container");
+    box.innerHTML = "";
+
+    SCALE.forEach((label, index) => {
+        const value = index + 1;
+        const option = document.createElement("div");
+        option.className = "option";
+        option.textContent = label;
+        option.onclick = () => selectAnswer(value);
+
+        if (answers[q.id] === value) option.classList.add("selected");
+        box.appendChild(option);
+    });
+
+    document.getElementById("btn-prev").disabled = currentQuestion === 0;
+
+    const nextBtn = document.getElementById("btn-next");
+    nextBtn.textContent = currentQuestion === total - 1 ? "Hoàn thành ✓" : "Câu sau →";
+}
+
+function selectAnswer(value) {
+    const q = QUESTIONS[currentQuestion];
+    answers[q.id] = value;
+    renderQuestion();
+}
+
+function prevQuestion() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+    }
+}
+
+function nextQuestion() {
+    const q = QUESTIONS[currentQuestion];
+
+    if (!answers[q.id]) {
+        alert("Vui lòng chọn một phương án trước khi tiếp tục.");
+        return;
     }
 
-    const formData = new URLSearchParams();
-    formData.append("submissionId", data.submissionId || "");
-    formData.append("participantCode", data.participantCode || "");
-    formData.append("level", data.level || "");
-    formData.append("subject", data.subject || "");
-    formData.append("dependency", data.dependency ?? "");
-    formData.append("autonomy", data.autonomy ?? "");
-    formData.append("critical", data.critical ?? "");
-    formData.append("verify", data.verify ?? "");
-    formData.append("apply", data.apply ?? "");
-    formData.append("responsible", data.responsible ?? "");
-    formData.append("overall", data.overall ?? "");
+    if (currentQuestion < QUESTIONS.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+    } else {
+        finishQuiz();
+    }
+}
 
-    // no-cors là cần thiết khi gọi Apps Script từ GitHub Pages.
-    // Vì no-cors không cho đọc response, frontend chỉ báo đã gửi request,
-    // còn việc chống trùng được xử lý ở Apps Script bằng submissionId.
-    return fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: formData.toString()
-    })
-    .then(() => {
-        const statusElem = document.getElementById("save-status");
-        if (statusElem) statusElem.textContent = "✓ Đã gửi dữ liệu lên Google Sheets.";
-        return true;
-    })
-    .catch(err => {
-        console.error("Lỗi gửi dữ liệu:", err);
-const statusElem = document.getElementById("save-status");
-        if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
-        return false;
-    });
+function scoreDimension(dimension) {
+    const items = QUESTIONS.filter(q => q.dimension === dimension);
+    const values = items.map(q => Number(answers[q.id] || 0));
+    if (!values.length || values.some(v => !v)) return 0;
+    const avg = values.reduce((a,b) => a+b, 0) / values.length;
+    return Math.round((avg / 5) * 100);
+}
+
+function finishQuiz() {
+    const unanswered = QUESTIONS.filter(q => !answers[q.id]);
+    if (unanswered.length) {
+        alert(`Bạn còn ${unanswered.length} câu chưa trả lời.`);
+        return;
+    }
+
+    const dependency = scoreDimension("dependency");
+    const autonomy = scoreDimension("autonomy");
+    const critical = scoreDimension("critical");
+    const verify = scoreDimension("verify");
+    const responsible = scoreDimension("responsible");
+
+    // 5 nhóm có trong bộ 20 câu. "Vận dụng" được suy ra từ khả năng tự học
+    // và trách nhiệm sử dụng AI để giữ tương thích với cấu trúc dữ liệu cũ.
+    const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
+
+    // Đảo chiều Dependency để điểm tổng hợp mang ý nghĩa "năng lực sử dụng AI độc lập":
+    // dependency cao => independence thấp.
+    const independence = 100 - dependency;
+    const overall = Math.round(
+        (independence + autonomy + critical + verify + apply + responsible) / 6 * 10
+    ) / 10;
+
+    lastResult = {
+        dependency,
+        autonomy,
+        critical,
+        verify,
+        apply,
+        responsible
+    };
+    lastOverall = overall;
+
+    document.getElementById("metric-dep").textContent = `${dependency}%`;
+    document.getElementById("metric-autonomy").textContent = `${autonomy}%`;
+    document.getElementById("metric-critical").textContent = `${critical}%`;
+    document.getElementById("metric-verify").textContent = `${verify}%`;
+    document.getElementById("metric-apply").textContent = `${apply}%`;
+    document.getElementById("metric-responsible").textContent = `${responsible}%`;
+
+    document.getElementById("result-score").textContent = `${overall}/100`;
+    document.getElementById("user-display-info").textContent =
+        `${document.getElementById("participant-code").value.trim()} · ` +
+        `${document.getElementById("student-level").value} · ` +
+        `${SUBJECT_NAMES[currentSubject]}`;
+
+    let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
+    let desc = "Bạn đang kết hợp AI với khả năng tự học và kiểm soát quá trình học tập.";
+
+    if (overall < 50) {
+        badge = "CẦN TĂNG TÍNH ĐỘC LẬP";
+        desc = "Nên tăng thời gian tự suy nghĩ, tự kiểm tra và chủ động xử lý nhiệm vụ trước khi nhờ AI.";
+    } else if (overall < 70) {
+        badge = "ĐANG PHÁT TRIỂN";
+        desc = "Bạn đã có một số thói quen học tập độc lập; hãy tiếp tục cải thiện cách kiểm chứng và sử dụng AI.";
+    } else if (overall < 85) {
+        badge = "KHÁ CHỦ ĐỘNG";
+        desc = "Bạn có xu hướng sử dụng AI như công cụ hỗ trợ và vẫn duy trì nhiều hoạt động tự học.";
+    } else {
+        badge = "CHỦ ĐỘNG CAO";
+        desc = "Hồ sơ cho thấy mức độ tự chủ tương đối cao khi kết hợp AI vào học tập.";
+    }
+
+    document.getElementById("result-badge").textContent = badge;
+    document.getElementById("result-desc").textContent = desc;
+
+    showScreen("result");
+    sendToGoogleSheets(currentResultPayload());
 }
 
 function currentResultPayload() {
     return {
         submissionId: currentSubmissionId,
-        participantCode: document.getElementById("participant-code").value,
+        participantCode: document.getElementById("participant-code").value.trim(),
         level: document.getElementById("student-level").value,
         subject: SUBJECT_NAMES[currentSubject],
         dependency: lastResult?.dependency ?? "",
@@ -557,23 +717,54 @@ function currentResultPayload() {
     };
 }
 
-function fetchTotalSubmissions() {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) return;
-    fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
-            const countElem = document.getElementById("dash-count");
-            if (countElem) countElem.innerText = Number(data.total || 0);
-        })
-        .catch(err => {
-            console.error("Lỗi tải tổng lượt:", err);
-            const countElem = document.getElementById("dash-count");
-            if (countElem) countElem.innerText = "Chưa kết nối";
-        });
+function sendToGoogleSheets(data) {
+    const statusElem = document.getElementById("save-status");
+
+    if (!SCRIPT_URL) {
+        if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình Google Apps Script.";
+        return Promise.resolve(false);
+    }
+
+    const formData = new URLSearchParams();
+    Object.keys(data).forEach(key => formData.append(key, data[key] ?? ""));
+
+    return fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {"Content-Type":"application/x-www-form-urlencoded;charset=UTF-8"},
+        body: formData.toString()
+    })
+    .then(() => {
+        if (statusElem) statusElem.textContent = "✓ Đã gửi dữ liệu lên Google Sheets.";
+        return true;
+    })
+    .catch(err => {
+        console.error("Lỗi gửi dữ liệu:", err);
+        if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
+        return false;
+    });
 }
 
 function saveCurrentResult() {
+    if (!lastResult) return;
     sendToGoogleSheets(currentResultPayload());
+}
+
+function fetchTotalSubmissions() {
+    const countElem = document.getElementById("dash-count");
+    if (!countElem || !SCRIPT_URL) return;
+
+    countElem.textContent = "Đang tải...";
+
+    fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+            countElem.textContent = Number(data.total || 0);
+        })
+        .catch(err => {
+            console.error("Lỗi tải tổng lượt:", err);
+            countElem.textContent = "Chưa kết nối";
+        });
 }
 
 function openDashboard() {
@@ -581,10 +772,17 @@ function openDashboard() {
     fetchTotalSubmissions();
 }
 
-function restartQuiz() { startQuiz(); }
-function goHome() { showScreen("home"); }
+function restartQuiz() {
+    startQuiz();
+}
 
-document.addEventListener("DOMContentLoaded", fetchTotalSubmissions);
+function goHome() {
+    showScreen("home");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    // Không gọi Apps Script ngay khi mở trang; chỉ tải khi mở Dashboard.
+});
 </script>
 </body>
 </html>
