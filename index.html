@@ -488,7 +488,7 @@ function makeSubmissionId() {
 }
 
 function sendToGoogleSheets(data) {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec")) {
+  if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
         const statusElem = document.getElementById("save-status");
         if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình URL Google Apps Script.";
         return Promise.resolve(false);
