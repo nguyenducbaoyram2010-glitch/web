@@ -488,7 +488,7 @@ function makeSubmissionId() {
 }
 
 function sendToGoogleSheets(data) {
-    if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec")) {
         const statusElem = document.getElementById("save-status");
         if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình URL Google Apps Script.";
         return Promise.resolve(false);
@@ -572,7 +572,64 @@ function openDashboard() {
 function restartQuiz() { startQuiz(); }
 function goHome() { showScreen("home"); }
 
-document.addEventListener("DOMContentLoaded", fetchTotalSubmissions);
+/* Thêm nút về trang đầu và thông tin liên hệ */
+function addHomeAndContact() {
+    const quiz = document.getElementById("quiz");
+
+    if (quiz && !document.getElementById("quick-home-button")) {
+        const actionBox = document.createElement("div");
+        actionBox.style.cssText =
+            "display:flex;justify-content:flex-end;margin-bottom:16px;";
+
+        actionBox.innerHTML = `
+            <button
+                id="quick-home-button"
+                class="btn btn-secondary btn-small"
+                onclick="goHome()"
+            >
+                🏠 Về trang đầu
+            </button>
+        `;
+
+        quiz.insertBefore(actionBox, quiz.firstChild);
+    }
+
+    const home = document.getElementById("home");
+
+    if (home && !document.getElementById("contact-home")) {
+        const contact = document.createElement("p");
+        contact.id = "contact-home";
+        contact.style.cssText = "margin:20px 0 0;color:#64748b;font-size:14px;";
+        contact.innerHTML = `
+            Liên hệ với chúng tôi:
+            <a href="tel:0868579082"
+               style="color:#4f46e5;font-weight:700;text-decoration:none;">
+                0868579082
+            </a>
+        `;
+
+        home.appendChild(contact);
+    }
+
+    const footer = document.querySelector(".footer-note");
+
+    if (footer && !document.getElementById("contact-footer")) {
+        const footerContact = document.createElement("span");
+        footerContact.id = "contact-footer";
+        footerContact.innerHTML = `
+            <br>
+            Liên hệ với chúng tôi:
+            <a href="tel:0868579082">0868579082</a>
+        `;
+
+        footer.appendChild(footerContact);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    fetchTotalSubmissions();
+    addHomeAndContact();
+});
 </script>
 </body>
 </html>
