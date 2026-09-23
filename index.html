@@ -1,426 +1,296 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>AI Study Check</title>
-
-<!-- Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-* {
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-  margin: 0;
-  padding: 20px;
-  background: #f5f7fb;
-  color: #1f2937;
-}
-
-.container {
-  width: 100%;
-  max-width: 850px;
-  margin: auto;
-  background: white;
-  padding: 28px;
-  border-radius: 18px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-h1 {
-  margin: 0;
-  text-align: center;
-  color: #1e293b;
-  font-size: 30px;
-  font-weight: 800;
-}
-
-.subtitle {
-  text-align: center;
-  margin: 10px 0 20px;
-  color: #64748b;
-  line-height: 1.5;
-}
-
-
-/* =====================================================
-   CONNECTION STATUS
-===================================================== */
-
-.status-bar {
-  text-align: center;
-  padding: 11px 15px;
-  background: #eff6ff;
-  color: #2563eb;
-  border-radius: 10px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  border: 1px solid #dbeafe;
-}
-
-
-/* =====================================================
-   FORM
-===================================================== */
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 700;
-  color: #334155;
-}
-
-input[type="text"],
-select {
-  width: 100%;
-  padding: 13px 14px;
-  border: 1px solid #cbd5e1;
-  border-radius: 9px;
-  font-size: 15px;
-  background: white;
-  outline: none;
-  transition: 0.2s;
-}
-
-input[type="text"]:focus,
-select:focus {
-  border-color: #6366f1;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
-}
-
-.question-title {
-  margin-top: 30px;
-  margin-bottom: 18px;
-  text-align: center;
-  color: #1e293b;
-}
-
-
-/* =====================================================
-   SUBMIT BUTTON
-===================================================== */
-
-.btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 800;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.btn-submit:hover {
-  background: #4338ca;
-  transform: translateY(-1px);
-}
-
-.btn-submit:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
-
-
-/* =====================================================
-   RESULT SECTION
-===================================================== */
-
-#result-section {
-  display: none;
-  margin-top: 35px;
-  padding-top: 25px;
-  border-top: 2px solid #e5e7eb;
-}
-
-.result-heading {
-  margin: 0 0 20px;
-  color: #111827;
-  font-size: 25px;
-  line-height: 1.3;
-  font-weight: 800;
-  text-align: left;
-}
-
-.analysis-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 14px;
-  font-size: 17px;
-  font-weight: 800;
-  color: #172554;
-}
-
-
-/* =====================================================
-   CARDS
-===================================================== */
-
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.card {
-  min-height: 150px;
-  padding: 18px;
-  border-radius: 14px;
-  border: 1px solid #eadfd5;
-  border-left: 4px solid #f97316;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.025);
-  transition: 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 20px rgba(0,0,0,0.06);
-}
-
-.card h4 {
-  margin: 0 0 10px;
-  font-size: 16px;
-  font-weight: 800;
-  color: #172554;
-}
-
-.card .percent {
-  font-size: 27px;
-  line-height: 1;
-  font-weight: 800;
-  margin-bottom: 12px;
-  color: #172554;
-}
-
-.card .desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #475569;
-}
-
-
-/* CARD COLORS */
-
-.card.orange {
-  background: #fff8ef;
-  border-color: #f0e2d2;
-  border-left-color: #f97316;
-}
-
-.card.blue {
-  background: #fff8ef;
-  border-color: #f0e2d2;
-  border-left-color: #f97316;
-}
-
-.card.pink {
-  background: #fff4f6;
-  border-color: #f1dce2;
-  border-left-color: #e91e63;
-}
-
-.card.green {
-  background: #effcf3;
-  border-color: #d7eadc;
-  border-left-color: #22a559;
-}
-
-
-/* =====================================================
-   SUMMARY
-===================================================== */
-
-.summary-box {
-  margin-top: 18px;
-  padding: 18px;
-  border-radius: 15px;
-  background: #effcf3;
-  border: 1px solid #bfe8cd;
-  border-left: 4px solid #22a559;
-}
-
-.summary-box h4 {
-  margin: 0 0 10px;
-  color: #166534;
-  font-size: 17px;
-  font-weight: 800;
-}
-
-.summary-box p {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.65;
-  color: #334155;
-}
-
-.highlight-box {
-  margin-top: 14px;
-  padding: 16px 17px;
-  background: white;
-  border-radius: 12px;
-  border-left: 4px solid #22a559;
-  color: #334155;
-  line-height: 1.6;
-}
-
-.highlight-box strong {
-  color: #166534;
-}
-
-
-/* =====================================================
-   RADAR
-===================================================== */
-
-.radar-section {
-  margin-top: 30px;
-  padding-top: 25px;
-  border-top: 2px solid #e5e7eb;
-}
-
-.radar-title {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  margin-bottom: 10px;
-  font-size: 18px;
-  font-weight: 800;
-  color: #111827;
-}
-
-.radar-description {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #6b7280;
-  margin-bottom: 20px;
-}
-
-.chart-box {
-  width: 100%;
-  max-width: 650px;
-  margin: auto;
-}
-
-#radarChart {
-  width: 100% !important;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer {
-  text-align: center;
-  margin-top: 30px;
-  padding-top: 18px;
-  border-top: 1px solid #e5e7eb;
-  color: #94a3b8;
-  font-size: 12px;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media (max-width: 650px) {
-
-  body {
-    padding: 10px;
-  }
-
-  .container {
-    padding: 18px;
-    border-radius: 14px;
-  }
-
-  h1 {
-    font-size: 24px;
-  }
-
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .result-heading {
-    font-size: 22px;
-  }
-
-  .card {
-    min-height: auto;
-  }
-
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Khảo Sát Năng Lực Sử Dụng AI</title>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 800px;
+      background: #fff;
+      margin: auto;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    /* =========================
+       THANH TRẠNG THÁI
+    ========================= */
+
+    .status-bar {
+      text-align: center;
+      padding: 10px;
+      background: #e8f4fd;
+      color: #1e88e5;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    /* =========================
+       FORM
+    ========================= */
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: white;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      outline: none;
+      border-color: #4caf50;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      background: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+      background: #43a047;
+    }
+
+    .btn-submit:disabled {
+      background: #9e9e9e;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       RESULT
+    ========================= */
+
+    #result-section {
+      display: none;
+      margin-top: 30px;
+      border-top: 2px dashed #ddd;
+      padding-top: 20px;
+    }
+
+    /* =========================
+       PHÂN TÍCH CHI TIẾT
+    ========================= */
+
+    .analysis-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0 0 12px 0;
+      font-size: 17px;
+      font-weight: 800;
+      color: #172554;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 15px;
+    }
+
+    .card {
+      padding: 17px;
+      border-radius: 14px;
+      background: #fff8ef;
+      border: 1px solid #f0e2d2;
+      border-left: 4px solid #f97316;
+      min-height: 145px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .card h4 {
+      margin: 0 0 9px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #172554;
+    }
+
+    .card .percent {
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 11px;
+      color: #172554;
+    }
+
+    .card .desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #475569;
+    }
+
+    /* Màu thẻ */
+
+    .card.purple {
+      background: #fff8ef;
+      border-color: #f0e2d2;
+      border-left-color: #f97316;
+    }
+
+    .card.blue {
+      background: #fff8ef;
+      border-color: #f0e2d2;
+      border-left-color: #f97316;
+    }
+
+    .card.pink {
+      background: #fff4f6;
+      border-color: #f1dce2;
+      border-left-color: #e91e63;
+    }
+
+    .card.green {
+      background: #effcf3;
+      border-color: #d7eadc;
+      border-left-color: #22a559;
+    }
+
+    /* =========================
+       PHÂN TÍCH TỔNG HỢP
+    ========================= */
+
+    .summary-box {
+      background: #effcf3;
+      padding: 17px;
+      border-radius: 14px;
+      margin-top: 18px;
+      border: 1px solid #bfe8cd;
+      border-left: 4px solid #22a559;
+    }
+
+    .summary-box h4 {
+      margin: 0 0 9px;
+      color: #166534;
+      font-size: 17px;
+    }
+
+    .summary-box p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .highlight-box {
+      margin-top: 13px;
+      background: white;
+      padding: 15px;
+      border-radius: 11px;
+      border-left: 4px solid #22a559;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    /* =========================
+       RADAR
+    ========================= */
+
+    .radar-section {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .radar-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .radar-description {
+      font-size: 13px;
+      color: #6b7280;
+      line-height: 1.55;
+      margin-bottom: 15px;
+    }
+
+    .chart-box {
+      max-width: 650px;
+      margin: 20px auto;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 650px) {
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
 <div class="container">
 
-  <!-- =================================================
-       HEADER
-  ================================================== -->
+  <h1>KHẢO SÁT NĂNG LỰC SỬ DỤNG AI</h1>
 
-  <h1>🤖 AI STUDY CHECK</h1>
-
-  <div class="subtitle">
-    Hệ thống đánh giá mức độ sử dụng AI trong học tập
-    và năng lực học tập độc lập
-  </div>
-
-
-  <!-- =================================================
-       CONNECTION
-  ================================================== -->
-
-  <div
-    class="status-bar"
-    id="connection-status"
-  >
+  <!-- TRẠNG THÁI KẾT NỐI -->
+  <div class="status-bar" id="connection-status">
     SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG: Đang tải...
   </div>
 
 
-  <!-- =================================================
-       FORM
-  ================================================== -->
+  <!-- =========================
+       FORM KHẢO SÁT
+  ========================== -->
 
   <form id="surveyForm">
 
-    <!-- HỌ TÊN -->
-
     <div class="form-group">
-
-      <label>
-        Họ và tên:
-      </label>
+      <label>Họ và tên:</label>
 
       <input
         type="text"
@@ -428,22 +298,14 @@ select:focus {
         required
         placeholder="Nhập họ và tên..."
       >
-
     </div>
 
 
-    <!-- KHỐI -->
-
     <div class="form-group">
 
-      <label>
-        Khối lớp / Định hướng:
-      </label>
+      <label>Khối lớp / Định hướng:</label>
 
-      <select
-        id="grade"
-        required
-      >
+      <select id="grade" required>
 
         <option value="">
           -- Chọn Khối Lớp --
@@ -466,13 +328,11 @@ select:focus {
     </div>
 
 
-    <!-- QUESTIONS -->
-
-    <h3 class="question-title">
-      📋 Nội dung khảo sát
+    <h3>
+      Nội dung khảo sát
       <br>
       <small>
-        Chọn mức độ phù hợp nhất với bạn
+        Chọn mức độ phù hợp từ 1 đến 5
       </small>
     </h3>
 
@@ -687,8 +547,6 @@ select:focus {
     </div>
 
 
-    <!-- SUBMIT -->
-
     <button
       type="submit"
       class="btn-submit"
@@ -700,32 +558,30 @@ select:focus {
   </form>
 
 
-  <!-- =================================================
-       RESULT
-  ================================================== -->
+  <!-- =========================
+       KẾT QUẢ
+  ========================== -->
 
   <div id="result-section">
 
-    <h2 class="result-heading">
+    <h2>
       Điểm số hiển thị chi tiết cho từng danh mục năng lực sau khi bấm nộp bài.
     </h2>
 
 
+    <!-- PHÂN TÍCH CHI TIẾT -->
+
     <div class="analysis-title">
-      🔎 <span>Phân tích chi tiết</span>
+      🔎 Phân tích chi tiết
     </div>
 
-
-    <!-- =================================================
-         6 CARDS
-    ================================================== -->
 
     <div class="cards-grid">
 
 
-      <!-- PHỤ THUỘC AI -->
+      <!-- 1. PHỤ THUỘC AI -->
 
-      <div class="card orange">
+      <div class="card purple">
 
         <h4>
           🤖 Phụ thuộc AI
@@ -748,7 +604,7 @@ select:focus {
       </div>
 
 
-      <!-- TỰ HỌC -->
+      <!-- 2. TỰ HỌC -->
 
       <div class="card blue">
 
@@ -773,7 +629,7 @@ select:focus {
       </div>
 
 
-      <!-- PHẢN BIỆN -->
+      <!-- 3. PHẢN BIỆN -->
 
       <div class="card pink">
 
@@ -798,9 +654,9 @@ select:focus {
       </div>
 
 
-      <!-- KIỂM CHỨNG -->
+      <!-- 4. KIỂM CHỨNG -->
 
-      <div class="card orange">
+      <div class="card purple">
 
         <h4>
           🔎 Kiểm chứng thông tin
@@ -823,7 +679,7 @@ select:focus {
       </div>
 
 
-      <!-- VẬN DỤNG -->
+      <!-- 5. VẬN DỤNG -->
 
       <div class="card pink">
 
@@ -848,7 +704,7 @@ select:focus {
       </div>
 
 
-      <!-- TRÁCH NHIỆM -->
+      <!-- 6. TRÁCH NHIỆM -->
 
       <div class="card green">
 
@@ -875,9 +731,9 @@ select:focus {
     </div>
 
 
-    <!-- =================================================
-         SUMMARY
-    ================================================== -->
+    <!-- =========================
+         TỔNG HỢP
+    ========================== -->
 
     <div class="summary-box">
 
@@ -886,7 +742,7 @@ select:focus {
       </h4>
 
       <p id="summary-text">
-        Đang phân tích hồ sơ sử dụng AI...
+        Kết quả của bạn đang được phân tích...
       </p>
 
       <div
@@ -894,20 +750,20 @@ select:focus {
         id="highlight-text"
       >
         💡 <strong>Gợi ý:</strong>
-        Hệ thống đang tạo khuyến nghị cá nhân hóa.
+        Hệ thống sẽ đưa ra gợi ý dựa trên kết quả của bạn.
       </div>
 
     </div>
 
 
-    <!-- =================================================
+    <!-- =========================
          RADAR
-    ================================================== -->
+    ========================== -->
 
     <div class="radar-section">
 
       <div class="radar-title">
-        🕸️ <span>Biểu đồ radar</span>
+        🕸️ Biểu đồ radar
       </div>
 
       <p class="radar-description">
@@ -931,613 +787,576 @@ select:focus {
 
   </div>
 
-
-  <!-- =================================================
-       FOOTER
-  ================================================== -->
-
-  <div class="footer">
-
-    AI Study Check · Hệ thống đánh giá sử dụng AI trong học tập
-
-  </div>
-
 </div>
 
 
 <script>
 
-/* =====================================================
-   GOOGLE APPS SCRIPT URL
-===================================================== */
+  /* ==================================================
+     URL GOOGLE APPS SCRIPT
+  ================================================== */
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbyz9xvwNTFDzBMGr7-ZJx6F-dlQcf6xYSTmZOK7Iot4kTShqhwhmOq6BjZ9LJBdRy4/exec";
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbyz9xvwNTFDzBMGr7-ZJx6F-dlQcf6xYSTmZOK7Iot4kTShqhwhmOq6BjZ9LJBdRy4/exec";
 
 
-/* =====================================================
-   LOAD TOTAL
-===================================================== */
+  /* ==================================================
+     ĐẾM SỐ LƯỢT ĐÃ LƯU
+  ================================================== */
 
-async function loadTotalCount() {
+  async function loadTotalCount() {
 
-  try {
+    try {
 
-    const response =
-      await fetch(SCRIPT_URL + "?action=count");
+      const res =
+        await fetch(SCRIPT_URL);
 
-    const data =
-      await response.json();
+      const data =
+        await res.json();
 
-    const total =
-      data.total || 0;
-
-    document.getElementById(
-      "connection-status"
-    ).innerText =
-      "SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG: " + total;
-
-  }
-
-  catch(error) {
-
-    console.log("Không tải được tổng lượt:", error);
-
-    document.getElementById(
-      "connection-status"
-    ).innerText =
-      "SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG: Đã kết nối";
-
-  }
-
-}
-
-
-/* =====================================================
-   LOAD COUNT KHI MỞ TRANG
-===================================================== */
-
-loadTotalCount();
-
-
-/* =====================================================
-   RADAR VARIABLE
-===================================================== */
-
-let myRadarChart = null;
-
-
-/* =====================================================
-   HELPER - MÔ TẢ PHỤ THUỘC AI
-===================================================== */
-
-function getDependencyDesc(score) {
-
-  if (score <= 20) {
-
-    return "Mức độ sử dụng AI thấp. Bạn chủ yếu tự suy nghĩ và chỉ coi AI là nguồn tham khảo.";
-
-  }
-
-  if (score <= 40) {
-
-    return "Mức độ sử dụng AI tương đối thấp. Bạn vẫn giữ được sự chủ động trong quá trình học tập.";
-
-  }
-
-  if (score <= 60) {
-
-    return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi hỏi AI.";
-
-  }
-
-  if (score <= 80) {
-
-    return "Có xu hướng phụ thuộc vào AI. Bạn nên thử tự giải quyết một phần nhiệm vụ trước khi hỏi AI.";
-
-  }
-
-  return "Mức độ phụ thuộc AI cao. Bạn nên tăng thời gian tự suy nghĩ và kiểm tra lại kết quả trước khi sử dụng.";
-
-}
-
-
-/* =====================================================
-   HELPER - MÔ TẢ NĂNG LỰC
-===================================================== */
-
-function getAbilityDesc(score) {
-
-  if (score <= 20) {
-
-    return "Năng lực hiện tại còn hạn chế. Bạn nên luyện tập thường xuyên và bắt đầu từ những nhiệm vụ nhỏ.";
-
-  }
-
-  if (score <= 40) {
-
-    return "Năng lực ở mức thấp. Có thể cải thiện bằng cách luyện tập chủ động và đều đặn hơn.";
-
-  }
-
-  if (score <= 60) {
-
-    return "Năng lực ở mức trung bình khá. Có thể cải thiện bằng cách luyện tập thường xuyên hơn.";
-
-  }
-
-  if (score <= 80) {
-
-    return "Năng lực ở mức khá. Bạn đã có khả năng tương đối tốt và có thể tiếp tục nâng cao.";
-
-  }
-
-  return "Đây là một khía cạnh nổi bật trong hồ sơ kết quả của bạn.";
-
-}
-
-
-/* =====================================================
-   SUBMIT FORM
-===================================================== */
-
-document
-.getElementById("surveyForm")
-.addEventListener(
-  "submit",
-  async function(event) {
-
-    event.preventDefault();
-
-
-    /* ---------------------------------------------
-       BUTTON
-    --------------------------------------------- */
-
-    const button =
-      document.getElementById("submitBtn");
-
-    button.disabled = true;
-
-    button.innerText =
-      "ĐANG PHÂN TÍCH KẾT QUẢ...";
-
-
-    /* ---------------------------------------------
-       LẤY DỮ LIỆU
-    --------------------------------------------- */
-
-    const fullname =
-      document.getElementById("fullname").value.trim();
-
-    const grade =
-      document.getElementById("grade").value;
-
-
-    const v1 =
-      parseInt(
-        document.getElementById("q1").value
-      );
-
-    const v2 =
-      parseInt(
-        document.getElementById("q2").value
-      );
-
-    const v3 =
-      parseInt(
-        document.getElementById("q3").value
-      );
-
-    const v4 =
-      parseInt(
-        document.getElementById("q4").value
-      );
-
-    const v5 =
-      parseInt(
-        document.getElementById("q5").value
-      );
-
-    const v6 =
-      parseInt(
-        document.getElementById("q6").value
-      );
-
-
-    /* ---------------------------------------------
-       CHUYỂN SANG %
-    --------------------------------------------- */
-
-    const p1 =
-      Math.round((v1 / 5) * 100);
-
-    const p2 =
-      Math.round((v2 / 5) * 100);
-
-    const p3 =
-      Math.round((v3 / 5) * 100);
-
-    const p4 =
-      Math.round((v4 / 5) * 100);
-
-    const p5 =
-      Math.round((v5 / 5) * 100);
-
-    const p6 =
-      Math.round((v6 / 5) * 100);
-
-
-    /* ---------------------------------------------
-       ĐẢO PHỤ THUỘC → ĐỘC LẬP
-    --------------------------------------------- */
-
-    const pDocLap =
-      100 - p1;
-
-
-    /* =================================================
-       HIỂN THỊ CARD
-    ================================================= */
-
-    document.getElementById("p1").innerText =
-      p1 + "%";
-
-    document.getElementById("p2").innerText =
-      p2 + "%";
-
-    document.getElementById("p3").innerText =
-      p3 + "%";
-
-    document.getElementById("p4").innerText =
-      p4 + "%";
-
-    document.getElementById("p5").innerText =
-      p5 + "%";
-
-    document.getElementById("p6").innerText =
-      p6 + "%";
-
-
-    /* =================================================
-       NHẬN XÉT TỪNG NHÓM
-    ================================================= */
-
-    document.getElementById("desc1").innerText =
-      getDependencyDesc(p1);
-
-    document.getElementById("desc2").innerText =
-      getAbilityDesc(p2);
-
-    document.getElementById("desc3").innerText =
-      getAbilityDesc(p3);
-
-    document.getElementById("desc4").innerText =
-      getAbilityDesc(p4);
-
-    document.getElementById("desc5").innerText =
-      getAbilityDesc(p5);
-
-    document.getElementById("desc6").innerText =
-      getAbilityDesc(p6);
-
-
-    /* =================================================
-       TÌM ĐIỂM MẠNH / ĐIỂM CẦN CHÚ Ý
-    ================================================= */
-
-    const scores = {
-
-      "Năng lực tự học": p2,
-
-      "Tư duy phản biện": p3,
-
-      "Kiểm chứng thông tin": p4,
-
-      "Vận dụng kiến thức": p5,
-
-      "Sử dụng AI có trách nhiệm": p6
-
-    };
-
-
-    let strongestName = "";
-
-    let strongestScore = -1;
-
-
-    for (
-      const [name, score]
-      of Object.entries(scores)
-    ) {
-
-      if (
-        score > strongestScore
-      ) {
-
-        strongestScore = score;
-
-        strongestName = name;
-
-      }
-
-    }
-
-
-    let weakestName = "";
-
-    let weakestScore = 101;
-
-
-    for (
-      const [name, score]
-      of Object.entries(scores)
-    ) {
-
-      if (
-        score < weakestScore
-      ) {
-
-        weakestScore = score;
-
-        weakestName = name;
-
-      }
-
-    }
-
-
-    /* =================================================
-       SUMMARY
-    ================================================= */
-
-    document.getElementById(
-      "summary-text"
-    ).innerHTML =
-
-      `
-      Kết quả của bạn cho thấy một hồ sơ sử dụng AI
-      có những đặc điểm riêng.
-      Khía cạnh nổi bật nhất là
-      <strong>${strongestName}</strong>
-      với mức
-      <strong>${strongestScore}%</strong>.
-      Một khía cạnh nên được chú ý thêm là
-      <strong>${weakestName}</strong>
-      với mức
-      <strong>${weakestScore}%</strong>.
-      `;
-
-
-    /* =================================================
-       GỢI Ý CÁ NHÂN HÓA
-    ================================================= */
-
-    let advice = "";
-
-
-    if (p5 < 50) {
-
-      advice =
-        "Sau khi học một kiến thức mới, hãy thử tự đặt một tình huống khác và giải quyết nó mà không nhìn lại câu trả lời mẫu.";
-
-    }
-
-    else if (p4 < 50) {
-
-      advice =
-        "Khi nhận thông tin từ AI, hãy kiểm tra lại bằng sách giáo khoa, tài liệu học tập hoặc nguồn đáng tin cậy.";
-
-    }
-
-    else if (p3 < 50) {
-
-      advice =
-        "Hãy tập đặt câu hỏi “Vì sao?”, “Bằng chứng ở đâu?” và thử tìm điểm chưa hợp lý trong câu trả lời của AI.";
-
-    }
-
-    else if (p1 > 60) {
-
-      advice =
-        "Trước khi hỏi AI, hãy dành thời gian tự suy nghĩ và thử giải quyết nhiệm vụ bằng khả năng của mình.";
-
-    }
-
-    else {
-
-      advice =
-        "Tiếp tục duy trì việc sử dụng AI như một công cụ hỗ trợ, đồng thời tự suy nghĩ, kiểm chứng và hoàn thiện câu trả lời.";
-
-    }
-
-
-    document.getElementById(
-      "highlight-text"
-    ).innerHTML =
-
-      `
-      💡 <strong>Gợi ý:</strong>
-      ${advice}
-      `;
-
-
-    /* =================================================
-       RADAR
-    ================================================= */
-
-    const radarValues = [
-
-      pDocLap,
-
-      p2,
-
-      p3,
-
-      p4,
-
-      p5,
-
-      p6
-
-    ];
-
-
-    const radarLabels = [
-
-      "Độc lập",
-
-      "Tự học",
-
-      "Phản biện",
-
-      "Kiểm chứng",
-
-      "Vận dụng",
-
-      "Trách nhiệm"
-
-    ];
-
-
-    /* XÓA BIỂU ĐỒ CŨ */
-
-    if (myRadarChart) {
-
-      myRadarChart.destroy();
-
-    }
-
-
-    /* TẠO BIỂU ĐỒ */
-
-    const canvas =
       document.getElementById(
-        "radarChart"
-      );
+        "connection-status"
+      ).innerText =
+        `SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG: ${data.total || 0}`;
 
-    const ctx =
-      canvas.getContext("2d");
+    }
 
+    catch (err) {
 
-    myRadarChart =
-      new Chart(
-        ctx,
-        {
+      document.getElementById(
+        "connection-status"
+      ).innerText =
+        "SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG: 0 (Đã kết nối)";
 
-          type: "radar",
+    }
 
-          data: {
-
-            labels: radarLabels,
-
-            datasets: [
-
-              {
-
-                label:
-                  "Hồ sơ năng lực",
-
-                data:
-                  radarValues,
-
-                fill: true,
-
-                backgroundColor:
-                  "rgba(79, 70, 229, 0.16)",
-
-                borderColor:
-                  "rgba(67, 56, 202, 1)",
-
-                borderWidth: 3,
-
-                pointBackgroundColor:
-                  "rgba(67, 56, 202, 1)",
-
-                pointBorderColor:
-                  "rgba(67, 56, 202, 1)",
-
-                pointRadius: 5,
-
-                pointHoverRadius: 7
-
-              }
-
-            ]
-
-          },
+  }
 
 
-          options: {
-
-            responsive: true,
-
-            maintainAspectRatio: true,
+  loadTotalCount();
 
 
-            plugins: {
+  /* ==================================================
+     BIẾN RADAR
+  ================================================== */
 
-              legend: {
+  let myRadarChart = null;
 
-                display: false
 
-              }
+  /* ==================================================
+     XỬ LÝ FORM
+  ================================================== */
+
+  document
+    .getElementById("surveyForm")
+    .addEventListener(
+      "submit",
+      async function(e) {
+
+        e.preventDefault();
+
+
+        const btn =
+          document.getElementById("submitBtn");
+
+
+        btn.disabled = true;
+
+        btn.innerText =
+          "Đang gửi dữ liệu...";
+
+
+        /* ==========================================
+           LẤY DỮ LIỆU
+        ========================================== */
+
+        const fullname =
+          document.getElementById("fullname").value.trim();
+
+        const grade =
+          document.getElementById("grade").value;
+
+
+        const v1 =
+          parseInt(
+            document.getElementById("q1").value
+          );
+
+        const v2 =
+          parseInt(
+            document.getElementById("q2").value
+          );
+
+        const v3 =
+          parseInt(
+            document.getElementById("q3").value
+          );
+
+        const v4 =
+          parseInt(
+            document.getElementById("q4").value
+          );
+
+        const v5 =
+          parseInt(
+            document.getElementById("q5").value
+          );
+
+        const v6 =
+          parseInt(
+            document.getElementById("q6").value
+          );
+
+
+        /* ==========================================
+           TÍNH %
+        ========================================== */
+
+        const p1 =
+          Math.round((v1 / 5) * 100);
+
+        const p2 =
+          Math.round((v2 / 5) * 100);
+
+        const p3 =
+          Math.round((v3 / 5) * 100);
+
+        const p4 =
+          Math.round((v4 / 5) * 100);
+
+        const p5 =
+          Math.round((v5 / 5) * 100);
+
+        const p6 =
+          Math.round((v6 / 5) * 100);
+
+
+        /* ==========================================
+           ĐẢO CHIỀU PHỤ THUỘC AI
+        ========================================== */
+
+        const pDocLap =
+          100 - p1;
+
+
+        /* ==========================================
+           HIỂN THỊ ĐIỂM
+        ========================================== */
+
+        document.getElementById("p1").innerText =
+          p1 + "%";
+
+        document.getElementById("p2").innerText =
+          p2 + "%";
+
+        document.getElementById("p3").innerText =
+          p3 + "%";
+
+        document.getElementById("p4").innerText =
+          p4 + "%";
+
+        document.getElementById("p5").innerText =
+          p5 + "%";
+
+        document.getElementById("p6").innerText =
+          p6 + "%";
+
+
+        /* ==========================================
+           HÀM NHẬN XÉT PHỤ THUỘC AI
+        ========================================== */
+
+        function dependencyText(score) {
+
+          if (score <= 20) {
+
+            return "Có mức độ sử dụng AI thấp. Bạn chủ yếu tự suy nghĩ và sử dụng AI như nguồn tham khảo.";
+
+          }
+
+          if (score <= 40) {
+
+            return "Mức độ sử dụng AI tương đối thấp. Bạn vẫn giữ được sự chủ động trong quá trình học tập.";
+
+          }
+
+          if (score <= 60) {
+
+            return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi hỏi AI.";
+
+          }
+
+          if (score <= 80) {
+
+            return "Có xu hướng phụ thuộc vào AI. Bạn nên thử tự giải quyết một phần nhiệm vụ trước khi hỏi AI.";
+
+          }
+
+          return "Mức độ phụ thuộc AI cao. Bạn nên tăng thời gian tự suy nghĩ và kiểm tra lại kết quả trước khi sử dụng.";
+
+        }
+
+
+        /* ==========================================
+           HÀM NHẬN XÉT NĂNG LỰC
+        ========================================== */
+
+        function abilityText(score) {
+
+          if (score <= 20) {
+
+            return "Năng lực hiện tại còn hạn chế. Bạn nên luyện tập thường xuyên và bắt đầu từ những nhiệm vụ nhỏ.";
+
+          }
+
+          if (score <= 40) {
+
+            return "Năng lực ở mức thấp. Có thể cải thiện bằng cách luyện tập chủ động và đều đặn hơn.";
+
+          }
+
+          if (score <= 60) {
+
+            return "Năng lực ở mức trung bình khá. Có thể cải thiện bằng cách luyện tập thường xuyên hơn.";
+
+          }
+
+          if (score <= 80) {
+
+            return "Năng lực ở mức khá. Bạn đã có khả năng tương đối tốt và có thể tiếp tục nâng cao.";
+
+          }
+
+          return "Đây là một khía cạnh nổi bật trong hồ sơ trả lời của bạn.";
+
+        }
+
+
+        /* ==========================================
+           GÁN NHẬN XÉT
+        ========================================== */
+
+        document.getElementById("desc1").innerText =
+          dependencyText(p1);
+
+        document.getElementById("desc2").innerText =
+          abilityText(p2);
+
+        document.getElementById("desc3").innerText =
+          abilityText(p3);
+
+        document.getElementById("desc4").innerText =
+          abilityText(p4);
+
+        document.getElementById("desc5").innerText =
+          abilityText(p5);
+
+        document.getElementById("desc6").innerText =
+          abilityText(p6);
+
+
+        /* ==========================================
+           XÁC ĐỊNH ĐIỂM NỔI BẬT / CẦN CẢI THIỆN
+        ========================================== */
+
+        const abilities = {
+
+          "Năng lực tự học": p2,
+
+          "Tư duy phản biện": p3,
+
+          "Kiểm chứng thông tin": p4,
+
+          "Vận dụng kiến thức": p5,
+
+          "Sử dụng AI có trách nhiệm": p6
+
+        };
+
+
+        let strongestName = "";
+
+        let strongestScore = -1;
+
+
+        let weakestName = "";
+
+        let weakestScore = 101;
+
+
+        for (
+          const [name, score]
+          of Object.entries(abilities)
+        ) {
+
+          if (score > strongestScore) {
+
+            strongestScore = score;
+
+            strongestName = name;
+
+          }
+
+
+          if (score < weakestScore) {
+
+            weakestScore = score;
+
+            weakestName = name;
+
+          }
+
+        }
+
+
+        /* ==========================================
+           PHÂN TÍCH TỔNG HỢP
+        ========================================== */
+
+        document.getElementById(
+          "summary-text"
+        ).innerHTML = `
+
+          Kết quả của bạn cho thấy một hồ sơ sử dụng AI
+          có những đặc điểm riêng.
+          Khía cạnh nổi bật gồm
+          <strong>${strongestName}</strong>
+          với mức
+          <strong>${strongestScore}%</strong>.
+          Một số khía cạnh nên được chú ý thêm gồm
+          <strong>${weakestName}</strong>
+          với mức
+          <strong>${weakestScore}%</strong>.
+
+        `;
+
+
+        /* ==========================================
+           GỢI Ý CÁ NHÂN HÓA
+        ========================================== */
+
+        let advice = "";
+
+
+        if (p5 < 50) {
+
+          advice =
+            "Sau khi học một kiến thức mới, hãy thử tự đặt một tình huống khác và giải quyết nó mà không nhìn lại câu trả lời mẫu.";
+
+        }
+
+        else if (p4 < 50) {
+
+          advice =
+            "Khi nhận thông tin từ AI, hãy kiểm tra lại bằng sách giáo khoa, tài liệu học tập hoặc nguồn đáng tin cậy.";
+
+        }
+
+        else if (p3 < 50) {
+
+          advice =
+            "Hãy tập đặt câu hỏi “Vì sao?”, “Bằng chứng ở đâu?” và thử tìm điểm chưa hợp lý trong câu trả lời của AI.";
+
+        }
+
+        else if (p1 > 60) {
+
+          advice =
+            "Trước khi hỏi AI, hãy dành thời gian tự suy nghĩ và thử giải quyết nhiệm vụ bằng khả năng của mình.";
+
+        }
+
+        else {
+
+          advice =
+            "Tiếp tục duy trì việc sử dụng AI như một công cụ hỗ trợ, đồng thời tự suy nghĩ, kiểm chứng và hoàn thiện câu trả lời.";
+
+        }
+
+
+        document.getElementById(
+          "highlight-text"
+        ).innerHTML =
+
+          "💡 <strong>Gợi ý:</strong> " +
+          advice;
+
+
+        /* ==========================================
+           HIỂN THỊ RESULT
+        ========================================== */
+
+        document.getElementById(
+          "result-section"
+        ).style.display = "block";
+
+
+        /* ==========================================
+           RADAR
+        ========================================== */
+
+        const radarValues = [
+
+          pDocLap,
+
+          p2,
+
+          p3,
+
+          p4,
+
+          p5,
+
+          p6
+
+        ];
+
+
+        const radarLabels = [
+
+          "Độc lập",
+
+          "Tự học",
+
+          "Phản biện",
+
+          "Kiểm chứng",
+
+          "Vận dụng",
+
+          "Trách nhiệm"
+
+        ];
+
+
+        if (myRadarChart) {
+
+          myRadarChart.destroy();
+
+        }
+
+
+        const radarCanvas =
+          document.getElementById(
+            "radarChart"
+          );
+
+
+        const radarCtx =
+          radarCanvas.getContext("2d");
+
+
+        myRadarChart = new Chart(
+
+          radarCtx,
+
+          {
+
+            type: "radar",
+
+            data: {
+
+              labels: radarLabels,
+
+              datasets: [
+
+                {
+
+                  label: "Hồ sơ năng lực",
+
+                  data: radarValues,
+
+                  fill: true,
+
+                  backgroundColor:
+                    "rgba(67, 56, 202, 0.15)",
+
+                  borderColor:
+                    "rgba(67, 56, 202, 1)",
+
+                  borderWidth: 3,
+
+                  pointBackgroundColor:
+                    "rgba(67, 56, 202, 1)",
+
+                  pointBorderColor:
+                    "rgba(67, 56, 202, 1)",
+
+                  pointRadius: 5,
+
+                  pointHoverRadius: 7
+
+                }
+
+              ]
 
             },
 
+            options: {
 
-            scales: {
+              responsive: true,
 
-              r: {
+              maintainAspectRatio: true,
 
-                min: 0,
+              plugins: {
 
-                max: 100,
+                legend: {
 
-                beginAtZero: true,
+                  display: false
 
+                }
 
-                ticks: {
+              },
 
-                  stepSize: 20,
+              scales: {
 
-                  color: "#6b7280",
+                r: {
 
-                  backdropColor:
-                    "transparent",
+                  min: 0,
 
-                  font: {
+                  max: 100,
 
-                    size: 10
+                  beginAtZero: true,
 
-                  }
+                  ticks: {
 
-                },
+                    stepSize: 20,
 
+                    color: "#6b7280",
 
-                angleLines: {
+                    backdropColor: "transparent",
 
-                  color: "#d1d5db"
+                    font: {
 
-                },
+                      size: 10
 
+                    }
 
-                grid: {
+                  },
 
-                  color: "#d1d5db"
+                  angleLines: {
 
-                },
+                    color: "#d1d5db"
 
+                  },
 
-                pointLabels: {
+                  grid: {
 
-                  color: "#111827",
+                    color: "#d1d5db"
 
-                  font: {
+                  },
 
-                    size: 15,
+                  pointLabels: {
 
-                    weight: "700"
+                    color: "#111827",
+
+                    font: {
+
+                      size: 15,
+
+                      weight: "700"
+
+                    }
 
                   }
 
@@ -1549,166 +1368,123 @@ document
 
           }
 
-        }
-      );
-
-
-    /* =================================================
-       HIỆN KẾT QUẢ
-    ================================================= */
-
-    const result =
-      document.getElementById(
-        "result-section"
-      );
-
-    result.style.display = "block";
-
-
-    /* Cuộn xuống kết quả */
-
-    setTimeout(
-      function() {
-
-        result.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
-      },
-      100
-    );
-
-
-    /* =================================================
-       GỬI GOOGLE SHEETS
-    ================================================= */
-
-    const payload = {
-
-      fullname: fullname,
-
-      grade: grade,
-
-      q1: v1,
-
-      q2: v2,
-
-      q3: v3,
-
-      q4: v4,
-
-      q5: v5,
-
-      q6: v6,
-
-      p1: p1,
-
-      p2: p2,
-
-      p3: p3,
-
-      p4: p4,
-
-      p5: p5,
-
-      p6: p6,
-
-      docLap: pDocLap,
-
-      strongest:
-        strongestName,
-
-      strongestScore:
-        strongestScore,
-
-      weakest:
-        weakestName,
-
-      weakestScore:
-        weakestScore,
-
-      timestamp:
-        new Date().toLocaleString(
-          "vi-VN"
-        )
-
-    };
-
-
-    /* =================================================
-       POST KHÔNG PREFLIGHT
-    ================================================= */
-
-    try {
-
-      const formData =
-        new URLSearchParams();
-
-
-      Object.keys(payload)
-        .forEach(
-          function(key) {
-
-            formData.append(
-              key,
-              payload[key]
-            );
-
-          }
         );
 
 
-      await fetch(
-        SCRIPT_URL,
-        {
+        /* ==========================================
+           GỬI DỮ LIỆU GOOGLE SHEETS
+        ========================================== */
 
-          method: "POST",
+        const payload = {
 
-          mode: "no-cors",
+          fullname: fullname,
 
-          body: formData
+          grade: grade,
+
+          q1: v1,
+
+          q2: v2,
+
+          q3: v3,
+
+          q4: v4,
+
+          q5: v5,
+
+          q6: v6,
+
+          p1: p1,
+
+          p2: p2,
+
+          p3: p3,
+
+          p4: p4,
+
+          p5: p5,
+
+          p6: p6,
+
+          docLap: pDocLap,
+
+          strongest: strongestName,
+
+          strongestScore: strongestScore,
+
+          weakest: weakestName,
+
+          weakestScore: weakestScore,
+
+          timestamp:
+            new Date().toISOString()
+
+        };
+
+
+        try {
+
+          await fetch(
+
+            SCRIPT_URL,
+
+            {
+
+              method: "POST",
+
+              mode: "no-cors",
+
+              headers: {
+
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+
+              },
+
+              body:
+                JSON.stringify(payload)
+
+            }
+
+          );
 
         }
-      );
+
+        catch (error) {
+
+          console.error(
+            "Lỗi gửi Google Sheets:",
+            error
+          );
+
+        }
 
 
-      console.log(
-        "Đã gửi dữ liệu:",
-        payload
-      );
+        /* ==========================================
+           KẾT THÚC
+        ========================================== */
+
+        btn.innerText =
+          "ĐÃ GỬI KẾT QUẢ ✓";
+
+        btn.style.background =
+          "#2e7d32";
 
 
-      /* cập nhật tổng số */
+        /* Cuộn xuống phần kết quả */
 
-      setTimeout(
-        loadTotalCount,
-        1000
-      );
+        document.getElementById(
+          "result-section"
+        ).scrollIntoView({
 
+          behavior: "smooth",
 
-      button.innerText =
-        "✓ ĐÃ NỘP KẾT QUẢ";
+          block: "start"
 
+        });
 
-    }
+      }
 
-    catch(error) {
-
-      console.error(
-        "Lỗi gửi dữ liệu:",
-        error
-      );
-
-
-      button.innerText =
-        "ĐÃ HIỂN THỊ KẾT QUẢ";
-
-
-    }
-
-  }
-);
+    );
 
 </script>
 
