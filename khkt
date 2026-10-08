@@ -471,7 +471,7 @@ Hệ thống đánh giá mức độ sử dụng AI trong học tập
 <script>
 // ==================== CẤU HÌNH GOOGLE SHEETS ====================
 // Sau khi deploy Apps Script, dán URL /exec vào đây.
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6m7q3A3tf_XujyoNIGPwH2V-BbN-U_4iE1q43tQG3Zj1xGcdFCsUEdkYzfx-X_wn5iw/exec";
 
 const DIMENSIONS = {
     dependency: { name:"Phụ thuộc AI" },
