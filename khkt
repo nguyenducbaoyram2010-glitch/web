@@ -180,7 +180,7 @@ select,input{
 }
 
 .option{
-    border:2px solid var(--border);
+border:2px solid var(--border);
     border-radius:11px;
     padding:15px 18px;
     cursor:pointer;
@@ -262,159 +262,26 @@ select,input{
     font-weight:900;
 }
 
-.analysis-section{
-    margin-top:26px;
-}
-
-.analysis-title{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:19px;
-    font-weight:900;
-    color:#1e1b4b;
-    margin-bottom:12px;
-}
-
-.analysis-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.analysis-card{
-    position:relative;
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:15px 14px 14px 16px;
-    background:#fff;
-    overflow:hidden;
-}
-
-.analysis-card::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:4px;
-    background:#4f46e5;
-}
-
-.analysis-card.dep::before{background:#f97316}
-.analysis-card.autonomy::before{background:#4f46e5}
-.analysis-card.critical::before{background:#e11d48}
-.analysis-card.verify::before{background:#0891b2}
-.analysis-card.apply::before{background:#ea580c}
-.analysis-card.responsible::before{background:#16a34a}
-
-.analysis-card-title{
-    font-size:13px;
-    font-weight:900;
-    color:#334155;
-    margin-bottom:3px;
-}
-.analysis-card-value{
-    font-size:20px;
-    font-weight:900;
-    color:#0f172a;
-    margin-bottom:4px;
-}
-
-.analysis-card-text{
-    font-size:12.5px;
-    line-height:1.5;
-    color:#475569;
-}
-
-.analysis-summary{
-    margin-top:14px;
-    padding:15px;
-    border:1px solid #bbf7d0;
-    border-radius:12px;
+.ai-box{
     background:#f0fdf4;
+    border:1px solid #bbf7d0;
+    border-radius:15px;
+    padding:20px;
+    margin-top:20px;
 }
 
-.analysis-summary-title{
+.ai-header{
     color:#166534;
-    font-size:15px;
-    font-weight:900;
-    margin-bottom:5px;
-}
-
-.analysis-summary-text{
-    color:#334155;
-    font-size:13px;
-    line-height:1.55;
-}
-
-.analysis-advice{
-    margin-top:10px;
-    padding:14px 15px;
-    border-radius:11px;
-    background:#fff;
-    border-left:4px solid #16a34a;
-}
-
-.analysis-advice strong{
-    color:#166534;
-}
-
-.radar-section{
-    margin-top:26px;
-}
-
-.radar-note{
-    color:var(--muted);
-    font-size:12px;
-    margin:-5px 0 10px;
-}
-
-.radar-wrap{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:100%;
-    overflow:hidden;
-}
-
-.radar-wrap svg{
-    width:min(100%,560px);
-    height:auto;
-    display:block;
-}
-
-.radar-grid{
-    fill:none;
-    stroke:#cbd5e1;
-    stroke-width:1;
-}
-
-.radar-axis{
-    stroke:#cbd5e1;
-    stroke-width:1;
-}
-
-.radar-area{
-    fill:rgba(79,70,229,.16);
-    stroke:#4f46e5;
-    stroke-width:2.5;
-    stroke-linejoin:round;
-}
-
-.radar-point{
-    fill:#4f46e5;
-}
-
-.radar-label{
-    font-size:12px;
+    font-size:19px;
     font-weight:800;
-    fill:#334155;
 }
 
-@media(max-width:650px){
-    .analysis-grid{grid-template-columns:1fr}
-    .radar-label{font-size:10px}
+.advice-box{
+    margin-top:14px;
+    padding:17px;
+    border-radius:14px;
+    background:white;
+    border-left:5px solid var(--green);
 }
 
 .footer-note{
@@ -430,16 +297,7 @@ select,input{
 .stat-card{border:1px solid var(--border);border-radius:14px;padding:16px;background:#fff;text-align:center}
 .stat-label{font-size:12px;color:var(--muted);font-weight:800}.stat-number{font-size:36px;font-weight:900;color:var(--primary)}
 .tip{font-size:13px;color:var(--muted);margin-top:7px}
-
-@media print{
-    body{background:#fff}
-    .container{max-width:none;margin:0;padding:0}
-    .screen:not(#result){display:none!important}
-    .screen#result{display:block!important;box-shadow:none;margin:0;padding:0}
-    .toolbar,.footer-note,.notice{display:none!important}
-    .card{box-shadow:none}
-    .analysis-section,.radar-section{break-inside:avoid;}
-}
+@media print{body{background:#fff}.container{max-width:none;margin:0;padding:0}.screen:not(#result){display:none!important}.screen#result{display:block!important;box-shadow:none;margin:0;padding:0}.toolbar,.footer-note,.notice{display:none!important}.card{box-shadow:none}}
 </style>
 </head>
 
@@ -452,12 +310,15 @@ select,input{
     <div style="font-size:64px">🧠</div>
     <h1>AI Study Check 4.0</h1>
     <p class="subtitle">
-        Hệ thống đánh giá mức độ sử dụng AI trong học tập và năng lực học tập độc lập.
+Hệ thống đánh giá mức độ sử dụng AI trong học tập
+        và năng lực học tập độc lập.
     </p>
 
     <div class="notice" style="text-align:left">
         <strong>Lưu ý:</strong>
-        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng, chưa phải thang đo tâm lý được chuẩn hóa. Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
+        Đây là thang đo thử nghiệm do nhóm nghiên cứu xây dựng,
+        chưa phải thang đo tâm lý được chuẩn hóa.
+        Kết quả chỉ nhằm mục đích khảo sát và nghiên cứu khoa học.
     </div>
 
     <div class="info-grid" style="text-align:left">
@@ -481,15 +342,20 @@ select,input{
     </div>
 
     <p>
-        <strong>Tác giả:</strong> Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
+        <strong>Tác giả:</strong>
+        Nguyễn Đức Bảo Trâm & Lưu Thanh Huyên — Lớp 11C1
     </p>
-
-    <div style="text-align:left;margin:20px 0">
-        <label for="participant-code">Họ và tên</label>
-        <input id="participant-code" maxlength="50" placeholder="Nhập họ và tên của bạn">
-        <div class="tip">Họ tên được sử dụng để phân biệt các lượt tham gia khảo sát.</div>
+<div style="text-align:left;margin:20px 0">
+    <label for="participant-code">Họ và tên</label>
+    <input
+        id="participant-code"
+        maxlength="50"
+        placeholder="Nhập họ và tên của bạn"
+    >
+    <div class="tip">
+        Vui lòng nhập họ và tên để hệ thống xác định người tham gia.
     </div>
-
+</div>
     <div class="toolbar">
       <button class="btn" onclick="startQuiz()">Bắt đầu kiểm tra ➜</button>
       <button class="btn btn-secondary" onclick="openDashboard()">📈 Dashboard nghiên cứu</button>
@@ -522,7 +388,7 @@ select,input{
 <!-- ================= RESULT ================= -->
 <section id="result" class="screen card">
     <h2 class="text-center">Kết Quả Đánh Giá</h2>
-    <p class="text-center subtitle" id="user-display-info"></p>
+<p class="text-center subtitle" id="user-display-info"></p>
 
     <div class="score-card">
         <div class="badge" id="result-badge">ĐANG PHÂN TÍCH</div>
@@ -533,7 +399,7 @@ select,input{
     <!-- METRICS -->
     <div class="profile-grid">
         <div class="metric">
-            <div class="metric-title">PHỤ THUỘC AI</div>
+            <div class="metric-title">AI DEPENDENCY</div>
             <div class="metric-value" style="color:#e11d48" id="metric-dep">0%</div>
         </div>
         <div class="metric">
@@ -553,71 +419,9 @@ select,input{
             <div class="metric-value" style="color:#ea580c" id="metric-apply">0%</div>
         </div>
         <div class="metric">
-            <div class="metric-title">NHẬN THỨC TRÁCH NHIỆM</div>
+            <div class="metric-title">AI CÓ TRÁCH NHIỆM</div>
             <div class="metric-value" style="color:#7c3aed" id="metric-responsible">0%</div>
         </div>
-    </div>
-
-    <!-- ================= PHÂN TÍCH CHI TIẾT ================= -->
-    <div class="analysis-section">
-        <div class="analysis-title">🔎 Phân tích chi tiết</div>
-
-        <div class="analysis-grid">
-            <div class="analysis-card dep">
-                <div class="analysis-card-title">🤖 Phụ thuộc AI</div>
-                <div class="analysis-card-value" id="analysis-dep-value">0%</div>
-                <div class="analysis-card-text" id="analysis-dep-text"></div>
-            </div>
-
-            <div class="analysis-card autonomy">
-                <div class="analysis-card-title">📖 Năng lực tự học</div>
-                <div class="analysis-card-value" id="analysis-autonomy-value">0%</div>
-                <div class="analysis-card-text" id="analysis-autonomy-text"></div>
-            </div>
-
-            <div class="analysis-card critical">
-                <div class="analysis-card-title">🧠 Tư duy phản biện</div>
-                <div class="analysis-card-value" id="analysis-critical-value">0%</div>
-                <div class="analysis-card-text" id="analysis-critical-text"></div>
-            </div>
-
-            <div class="analysis-card verify">
-                <div class="analysis-card-title">🔍 Kiểm chứng thông tin</div>
-                <div class="analysis-card-value" id="analysis-verify-value">0%</div>
-                <div class="analysis-card-text" id="analysis-verify-text"></div>
-            </div>
-
-            <div class="analysis-card apply">
-                <div class="analysis-card-title">💡 Vận dụng kiến thức</div>
-                <div class="analysis-card-value" id="analysis-apply-value">0%</div>
-                <div class="analysis-card-text" id="analysis-apply-text"></div>
-            </div>
-
-            <div class="analysis-card responsible">
-                <div class="analysis-card-title">🌐 Nhận thức trách nhiệm AI</div>
-                <div class="analysis-card-value" id="analysis-responsible-value">0%</div>
-                <div class="analysis-card-text" id="analysis-responsible-text"></div>
-            </div>
-        </div>
-
-        <div class="analysis-summary">
-            <div class="analysis-summary-title">📊 Phân tích tổng hợp</div>
-            <div class="analysis-summary-text" id="analysis-summary-text"></div>
-
-            <div class="analysis-advice">
-                <strong>💡 Vận dụng:</strong>
-                <span id="analysis-advice-text"></span>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= BIỂU ĐỒ RADAR ================= -->
-    <div class="radar-section">
-        <div class="analysis-title">📊 Biểu đồ radar</div>
-        <p class="radar-note">
-            Trên radar, trục “Độc lập” là chiều đảo của “Phụ thuộc AI”: điểm càng cao trên radar càng thể hiện xu hướng độc lập cao hơn.
-        </p>
-        <div class="radar-wrap" id="radar-chart"></div>
     </div>
 
     <div class="toolbar">
@@ -646,7 +450,7 @@ select,input{
   <div class="dashboard-grid">
     <div class="stat-card">
       <div class="stat-label">SỐ LƯỢT ĐÃ LƯU TOÀN MẠNG</div>
-      <div class="stat-number" id="dash-count">Đang tải...</div>
+<div class="stat-number" id="dash-count">Đang tải...</div>
     </div>
   </div>
   <div class="toolbar">
@@ -657,19 +461,25 @@ select,input{
 <div class="footer-note">
     AI Study Check 4.0 · Nhóm nghiên cứu 11C1<br>
     📞 Contact with us:
-    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">0868579082</a>
+    <a href="tel:0868579082" style="color:#4f46e5;font-weight:700;text-decoration:none;">
+        0868579082
+    </a>
 </div>
 
 </div>
 
 <script>
-// ==================== CẤU HÌNH ====================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyz9xvwNTFDzBMGr7-ZJx6F-dlQcf6xYSTmZOK7Iot4kTShqhwhmOq6BjZ9LJBdRy4/exec";
+// ==================== CẤU HÌNH GOOGLE SHEETS ====================
+// Sau khi deploy Apps Script, dán URL /exec vào đây.
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwnD6fxVifopjd4goBS1gkt8wlFsAn37G3sD6VreLwYM1qqTErpYnqR1gl5op2PwubEcg/exec";
 
-const SUBJECT_NAMES = {
-    natural: "Tự nhiên",
-    social: "Xã hội",
-    language: "Ngoại ngữ"
+const DIMENSIONS = {
+    dependency: { name:"Phụ thuộc AI" },
+    autonomy: { name:"Năng lực tự học" },
+    critical: { name:"Tư duy phản biện" },
+    verify: { name:"Kiểm chứng thông tin AI" },
+    apply: { name:"Vận dụng kiến thức" },
+    responsible: { name:"Sử dụng AI có trách nhiệm" }
 };
 
 const SCALE = [
@@ -680,383 +490,94 @@ const SCALE = [
     "5 — Hoàn toàn đúng"
 ];
 
-const QUESTIONS = [
-    {id:1, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường hỏi AI ngay khi không biết cách bắt đầu một bài tập."},
-    {id:2, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi thường yêu cầu AI giải hoàn chỉnh một bài tập thay vì tự giải trước."},
-    {id:3, dimension:"dependency", category:"Phụ thuộc AI", text:"Tôi từng đưa toàn bộ đề bài cho AI và sử dụng trực tiếp câu trả lời."},
-    {id:4, dimension:"dependency", category:"Phụ thuộc AI", text:"Khi bài tập khó, tôi có xu hướng để AI quyết định cách giải quyết thay mình."},
-
-    {id:5, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi thường tự suy nghĩ và thử giải quyết vấn đề trước khi hỏi AI."},
-    {id:6, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tự xác định mình cần làm gì khi gặp một bài tập mới."},
-    {id:7, dimension:"autonomy", category:"Năng lực tự học", text:"Sau khi tham khảo AI, tôi có thể tự làm lại bài mà không cần nhìn câu trả lời."},
-    {id:8, dimension:"autonomy", category:"Năng lực tự học", text:"Tôi có thể tiếp tục làm bài khi không có AI hướng dẫn từng bước."},
-
-    {id:9, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể tự giải thích vì sao mình chọn một đáp án hoặc cách giải."},
-    {id:10, dimension:"critical", category:"Tư duy phản biện", text:"Tôi đặt câu hỏi khi câu trả lời của AI chưa có đủ lý do hoặc bằng chứng."},
-    {id:11, dimension:"critical", category:"Tư duy phản biện", text:"Tôi có thể nhận ra khi câu trả lời của AI không phù hợp với yêu cầu của bài."},
-    {id:12, dimension:"critical", category:"Tư duy phản biện", text:"Tôi không mặc định cho rằng câu trả lời của AI luôn đúng."},
-
-    {id:13, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi kiểm tra lại thông tin trước khi sử dụng câu trả lời của AI."},
-    {id:14, dimension:"verify", category:"Kiểm chứng AI", text:"Tôi thường so sánh câu trả lời của AI với sách giáo khoa hoặc nguồn khác."},
-    {id:15, dimension:"verify", category:"Kiểm chứng AI", text:"Khi AI đưa ra thông tin quan trọng, tôi chủ động tìm nguồn khác để đối chiếu."},
-    {id:16, dimension:"verify", category:"Kiểm chứng AI", text:"Khi phát hiện AI có thể trả lời sai, tôi chủ động tìm cách kiểm tra và sửa lại."},
-
-    {id:17, dimension:"responsible", category:"Nhận thức trách nhiệm AI", text:"Tôi sử dụng AI như một công cụ hỗ trợ chứ không hoàn toàn thay thế suy nghĩ của mình."},
-    {id:18, dimension:"responsible", category:"Nhận thức trách nhiệm AI", text:"Tôi kiểm tra và chỉnh sửa nội dung AI tạo ra trước khi đưa vào bài làm."},
-    {id:19, dimension:"responsible", category:"Nhận thức trách nhiệm AI", text:"Tôi tránh sử dụng nguyên văn câu trả lời của AI khi chưa hiểu nội dung."},
-    {id:20, dimension:"responsible", category:"Nhận thức trách nhiệm AI", text:"Tôi cân nhắc tính chính xác và phù hợp của nội dung AI trước khi sử dụng."}
-];
-
-let currentQuestion = 0;
-let answers = {};
-let currentSubject = "natural";
-let currentSubmissionId = "";
-let lastResult = null;
-let lastOverall = 0;
-
+// ==================== GỬI DỮ LIỆU GOOGLE SHEETS ====================
 function makeSubmissionId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
-    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2,10);
+    return "SUB-" + Date.now() + "-" + Math.random().toString(36).slice(2, 10);
 }
 
-function showScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    const target = document.getElementById(id);
-    if (target) target.classList.add("active");
-    window.scrollTo({top:0, behavior:"smooth"});
-}
-
-function startQuiz() {
-    try {
-        const name = document.getElementById("participant-code").value.trim();
-        if (!name) {
-            alert("Vui lòng nhập họ và tên trước khi bắt đầu.");
-            document.getElementById("participant-code").focus();
-            return;
-        }
-
-        currentSubject = document.getElementById("student-subject").value;
-        currentQuestion = 0;
-        answers = {};
-        currentSubmissionId = makeSubmissionId();
-        lastResult = null;
-        lastOverall = 0;
-
-        showScreen("quiz");
-        renderQuestion();
-    } catch (error) {
-        console.error(error);
-        alert("Không thể bắt đầu bài kiểm tra. Vui lòng tải lại trang và thử lại.");
+function sendToGoogleSheets(data) {
+    if (!SCRIPT_URL || SCRIPT_URL.includes("PASTE_YOUR_APPS_SCRIPT")) {
+        const statusElem = document.getElementById("save-status");
+        if (statusElem) statusElem.textContent = "⚠️ Chưa cấu hình URL Google Apps Script.";
+        return Promise.resolve(false);
     }
-}
 
-function renderQuestion() {
-    const q = QUESTIONS[currentQuestion];
-    if (!q) return;
+    const formData = new URLSearchParams();
+    formData.append("submissionId", data.submissionId || "");
+    formData.append("participantCode", data.participantCode || "");
+    formData.append("level", data.level || "");
+    formData.append("subject", data.subject || "");
+    formData.append("dependency", data.dependency ?? "");
+    formData.append("autonomy", data.autonomy ?? "");
+    formData.append("critical", data.critical ?? "");
+    formData.append("verify", data.verify ?? "");
+    formData.append("apply", data.apply ?? "");
+    formData.append("responsible", data.responsible ?? "");
+    formData.append("overall", data.overall ?? "");
 
-    const total = QUESTIONS.length;
-    const num = currentQuestion + 1;
-    const percent = Math.round((num / total) * 100);
-
-    document.getElementById("progress-text").textContent = `Câu hỏi ${num} / ${total}`;
-    document.getElementById("progress-percent").textContent = `${percent}%`;
-    document.getElementById("progress-fill").style.width = `${percent}%`;
-    document.getElementById("question-num").textContent = `CÂU ${num}`;
-    document.getElementById("question-category").textContent = q.category;
-    document.getElementById("question-txt").textContent = q.text;
-
-    const box = document.getElementById("options-container");
-    box.innerHTML = "";
-
-    SCALE.forEach((label, index) => {
-        const value = index + 1;
-        const option = document.createElement("div");
-        option.className = "option";
-        option.textContent = label;
-        option.onclick = () => selectAnswer(value);
-
-        if (answers[q.id] === value) option.classList.add("selected");
-        box.appendChild(option);
+    // no-cors là cần thiết khi gọi Apps Script từ GitHub Pages.
+    // Vì no-cors không cho đọc response, frontend chỉ báo đã gửi request,
+    // còn việc chống trùng được xử lý ở Apps Script bằng submissionId.
+    return fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: formData.toString()
+    })
+    .then(() => {
+        const statusElem = document.getElementById("save-status");
+        if (statusElem) statusElem.textContent = "✓ Đã gửi yêu cầu lưu dữ liệu. Hãy kiểm tra Google Sheets để xác nhận.";
+        return true;
+    })
+    .catch(err => {
+        console.error("Lỗi gửi dữ liệu:", err);
+const statusElem = document.getElementById("save-status");
+        if (statusElem) statusElem.textContent = "❌ Không gửi được dữ liệu. Hãy thử lại.";
+        return false;
     });
-
-    document.getElementById("btn-prev").disabled = currentQuestion === 0;
-
-    const nextBtn = document.getElementById("btn-next");
-    nextBtn.textContent = currentQuestion === total - 1 ? "Hoàn thành ✓" : "Câu sau →";
-}
-
-function selectAnswer(value) {
-    const q = QUESTIONS[currentQuestion];
-    answers[q.id] = value;
-    renderQuestion();
-}
-
-function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-    }
-}
-
-function nextQuestion() {
-    const q = QUESTIONS[currentQuestion];
-
-    if (!answers[q.id]) {
-        alert("Vui lòng chọn một phương án trước khi tiếp tục.");
-        return;
-    }
-
-    if (currentQuestion < QUESTIONS.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-    } else {
-        finishQuiz();
-    }
-}
-
-function scoreDimension(dimension) {
-    const items = QUESTIONS.filter(q => q.dimension === dimension);
-    const values = items.map(q => Number(answers[q.id] || 0));
-    if (!values.length || values.some(v => !v)) return 0;
-    const avg = values.reduce((a,b) => a+b, 0) / values.length;
-    return Math.round((avg / 5) * 100);
-}
-
-function finishQuiz() {
-    const unanswered = QUESTIONS.filter(q => !answers[q.id]);
-    if (unanswered.length) {
-        alert(`Bạn còn ${unanswered.length} câu chưa trả lời.`);
-        return;
-    }
-
-    const dependency = scoreDimension("dependency");
-    const autonomy = scoreDimension("autonomy");
-    const critical = scoreDimension("critical");
-    const verify = scoreDimension("verify");
-    const responsible = scoreDimension("responsible");
-    const apply = Math.round((autonomy * 0.6 + critical * 0.4) * 10) / 10;
-
-    const independence = 100 - dependency;
-    const overall = Math.round(
-        (independence + autonomy + critical + verify + apply + responsible) / 6 * 10
-    ) / 10;
-
-    lastResult = {
-        dependency,
-        autonomy,
-        critical,
-        verify,
-        apply,
-        responsible
-    };
-    lastOverall = overall;
-
-    document.getElementById("metric-dep").textContent = `${dependency}%`;
-    document.getElementById("metric-autonomy").textContent = `${autonomy}%`;
-    document.getElementById("metric-critical").textContent = `${critical}%`;
-    document.getElementById("metric-verify").textContent = `${verify}%`;
-    document.getElementById("metric-apply").textContent = `${apply}%`;
-    document.getElementById("metric-responsible").textContent = `${responsible}%`;
-
-    document.getElementById("result-score").textContent = `${overall}/100`;
-    document.getElementById("user-display-info").textContent =
-        `${document.getElementById("participant-code").value.trim()} · Khối ` +
-        `${document.getElementById("student-level").value} · ` +
-        `${SUBJECT_NAMES[currentSubject]}`;
-
-    let badge = "HỒ SƠ SỬ DỤNG AI CÂN BẰNG";
-    let desc = "Bạn đang kết hợp AI với khả năng tự học và kiểm soát quá trình học tập.";
-
-    if (overall < 50) {
-        badge = "CẦN TĂNG TÍNH ĐỘC LẬP";
-        desc = "Nên tăng thời gian tự suy nghĩ, tự kiểm tra và chủ động xử lý nhiệm vụ trước khi nhờ AI.";
-    } else if (overall < 70) {
-        badge = "ĐANG PHÁT TRIỂN";
-        desc = "Bạn đã có một số thói quen học tập độc lập; hãy tiếp tục cải thiện cách kiểm chứng và sử dụng AI.";
-    } else if (overall < 85) {
-        badge = "KHÁ CHỦ ĐỘNG";
-        desc = "Bạn có xu hướng sử dụng AI như công cụ hỗ trợ và vẫn duy trì nhiều hoạt động tự học.";
-    } else {
-        badge = "CHỦ ĐỘNG CAO";
-        desc = "Hồ sơ cho thấy mức độ tự chủ tương đối cao khi kết hợp AI vào học tập.";
-    }
-
-    document.getElementById("result-badge").textContent = badge;
-    document.getElementById("result-desc").textContent = desc;
-
-    renderDetailedAnalysis();
-    showScreen("result");
-    sendToGoogleSheets(currentResultPayload());
-}
-
-function analysisLevel(score, reverse = false) {
-    if (reverse) {
-        if (score >= 75) return "Mức khá cao. Bạn nên ưu tiên tự suy nghĩ và thử cách giải trước khi nhờ AI.";
-        if (score >= 50) return "Có dấu hiệu sử dụng AI khá thường xuyên. Bạn nên chú ý dành thời gian tự suy nghĩ trước khi nhờ AI.";
-        if (score >= 25) return "Mức tương đối thấp. Bạn vẫn nên duy trì thói quen tự xử lý nhiệm vụ trước khi dùng AI.";
-        return "Mức thấp. AI dường như chưa được dùng như lựa chọn đầu tiên khi bạn gặp khó khăn.";
-    }
-
-    if (score >= 75) return "Đây là một khía cạnh nổi bật trong hồ sơ trả lời của bạn.";
-    if (score >= 50) return "Năng lực ở mức trung bình khá. Có thể cải thiện bằng cách luyện tập thường xuyên hơn.";
-    if (score >= 25) return "Đây là khía cạnh cần được chú ý và rèn luyện thêm trong quá trình học tập.";
-    return "Đây là khía cạnh cần được ưu tiên cải thiện trong quá trình học tập.";
-}
-
-function makeRadarSvg(values) {
-    const labels = ["Độc lập", "Tự học", "Phản biện", "Kiểm chứng", "Vận dụng", "Trách nhiệm"];
-    const cx = 280, cy = 245, radius = 150;
-    const n = labels.length;
-
-    const point = (value, i, r = radius) => {
-        const angle = -Math.PI / 2 + i * (2 * Math.PI / n);
-        const rr = r * Math.max(0, Math.min(100, value)) / 100;
-        return {
-            x: cx + rr * Math.cos(angle),
-            y: cy + rr * Math.sin(angle)
-        };
-    };
-
-    const polygonPoints = (r) => {
-        return Array.from({length:n}, (_,i) => {
-            const p = point(100, i, r);
-            return `${p.x.toFixed(1)},${p.y.toFixed(1)}`;
-        }).join(" ");
-    };
-
-    const dataPoints = values.map((v,i) => point(v,i));
-    const dataPolygon = dataPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
-
-    let svg = `
-    <svg viewBox="0 0 560 520" role="img" aria-label="Biểu đồ radar kết quả học tập độc lập">
-        <polygon class="radar-grid" points="${polygonPoints(radius)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.75)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.50)}"></polygon>
-        <polygon class="radar-grid" points="${polygonPoints(radius*0.25)}"></polygon>
-    `;
-
-    for (let i=0;i<n;i++) {
-        const p = point(100,i);
-        svg += `<line class="radar-axis" x1="${cx}" y1="${cy}" x2="${p.x}" y2="${p.y}"></line>`;
-    }
-
-    svg += `<polygon class="radar-area" points="${dataPolygon}"></polygon>`;
-
-    dataPoints.forEach(p => {
-        svg += `<circle class="radar-point" cx="${p.x}" cy="${p.y}" r="5"></circle>`;
-    });
-
-    labels.forEach((label,i) => {
-        const p = point(100,i, radius + 34);
-        let anchor = "middle";
-        if (p.x < cx - 20) anchor = "end";
-        if (p.x > cx + 20) anchor = "start";
-
-        let dy = 4;
-        if (i === 0) dy = -2;
-        if (i === 3) dy = 5;
-        svg += `<text class="radar-label" x="${p.x}" y="${p.y + dy}" text-anchor="${anchor}">${label}</text>`;
-    });
-
-    svg += `
-        <text x="510" y="385" text-anchor="end" font-size="10" fill="#94a3b8">100</text>
-        <text x="510" y="400" text-anchor="end" font-size="10" fill="#94a3b8">75</text>
-        <text x="510" y="415" text-anchor="end" font-size="10" fill="#94a3b8">50</text>
-        <text x="510" y="430" text-anchor="end" font-size="10" fill="#94a3b8">25</text>
-    `;
-
-    svg += "</svg>";
-    return svg;
-}
-
-function renderDetailedAnalysis() {
-    if (!lastResult) return;
-
-    const dependency = Number(lastResult.dependency || 0);
-    const autonomy = Number(lastResult.autonomy || 0);
-    const critical = Number(lastResult.critical || 0);
-    const verify = Number(lastResult.verify || 0);
-    const apply = Number(lastResult.apply || 0);
-    const responsible = Number(lastResult.responsible || 0);
-
-    const independence = Math.max(0, Math.min(100, 100 - dependency));
-    const values = [independence, autonomy, critical, verify, apply, responsible];
-
-    document.getElementById("analysis-dep-value").textContent = `${dependency}%`;
-    document.getElementById("analysis-autonomy-value").textContent = `${autonomy}%`;
-    document.getElementById("analysis-critical-value").textContent = `${critical}%`;
-    document.getElementById("analysis-verify-value").textContent = `${verify}%`;
-    document.getElementById("analysis-apply-value").textContent = `${apply}%`;
-    document.getElementById("analysis-responsible-value").textContent = `${responsible}%`;
-
-    document.getElementById("analysis-dep-text").textContent = analysisLevel(dependency, true);
-    document.getElementById("analysis-autonomy-text").textContent = analysisLevel(autonomy);
-    document.getElementById("analysis-critical-text").textContent = analysisLevel(critical);
-    document.getElementById("analysis-verify-text").textContent = analysisLevel(verify);
-    document.getElementById("analysis-apply-text").textContent = analysisLevel(apply);
-    document.getElementById("analysis-responsible-text").textContent = analysisLevel(responsible);
-
-    // Xử lý Phân tích tổng hợp để làm rõ khoảng cách Nhận thức vs Hành vi
-    let summaryText = `Kết quả của bạn trong lĩnh vực <strong>${SUBJECT_NAMES[currentSubject]}</strong> đạt điểm năng lực học tập tự chủ tổng hợp là <strong>${lastOverall}/100</strong>. `;
-    
-    if (dependency >= 50 && responsible >= 50) {
-        summaryText += `Hồ sơ của bạn cho thấy bạn có <strong>nhận thức khá tốt về trách nhiệm khi dùng AI (${responsible}%)</strong>, tuy nhiên trong thực tế thói quen làm bài bạn vẫn bị <strong>phụ thuộc vào AI ở mức khá cao (${dependency}%)</strong>. Đây là khoảng cách phổ biến giữa nhận thức và hành vi thực tế.`;
-    } else if (independence >= 70) {
-        summaryText += `Bạn duy trì được tính độc lập rất cao (${independence}%), chủ động tự suy nghĩ và ít bị phụ thuộc thụ động vào các công cụ AI.`;
-    } else {
-        summaryText += `Bạn nên chú trọng rèn luyện thói quen tự suy nghĩ và tự làm bài trước khi mở AI ra hỏi.`;
-    }
-
-    document.getElementById("analysis-summary-text").innerHTML = summaryText;
-
-    // Gợi ý vận dụng
-    let adviceText = "Sau khi học một kiến thức mới, hãy thử tự đặt một tình huống khác và giải quyết nó mà không nhìn lại câu trả lời mẫu của AI.";
-    if (dependency >= 60) {
-        adviceText = "Thực hiện quy trình 5 bước (THINK - ASK - CHECK - REBUILD - TRANSFER): Tự nghĩ làm trước 10 phút -> Mới hỏi AI -> Check lại SGK -> Sửa bài -> Tự làm lại bài mới khi tắt AI.";
-    } else if (verify < 50) {
-        adviceText = "Luôn rèn luyện thói quen kiểm chứng: Tìm và đối chiếu ít nhất 1 thông tin/công thức AI cung cấp với Sách giáo khoa trước khi chép vào bài.";
-    }
-
-    document.getElementById("analysis-advice-text").textContent = adviceText;
-    document.getElementById("radar-chart").innerHTML = makeRadarSvg(values);
 }
 
 function currentResultPayload() {
     return {
-        submission_id: currentSubmissionId,
-        timestamp: new Date().toISOString(),
-        name: document.getElementById("participant-code").value.trim(),
-        grade: document.getElementById("student-level").value,
-        subject: currentSubject,
-        overall_score: lastOverall,
-        dependency: lastResult ? lastResult.dependency : 0,
-        autonomy: lastResult ? lastResult.autonomy : 0,
-        critical: lastResult ? lastResult.critical : 0,
-        verify: lastResult ? lastResult.verify : 0,
-        apply: lastResult ? lastResult.apply : 0,
-        responsible: lastResult ? lastResult.responsible : 0,
-        answers: JSON.stringify(answers)
+        submissionId: currentSubmissionId,
+        participantCode: document.getElementById("participant-code").value,
+        level: document.getElementById("student-level").value,
+        subject: SUBJECT_NAMES[currentSubject],
+        dependency: lastResult?.dependency ?? "",
+        autonomy: lastResult?.autonomy ?? "",
+        critical: lastResult?.critical ?? "",
+        verify: lastResult?.verify ?? "",
+        apply: lastResult?.apply ?? "",
+        responsible: lastResult?.responsible ?? "",
+        independence: lastResult ? Math.round((100 - Number(lastResult.dependency || 0)) * 10) / 10 : "",
+        overall: lastOverall
     };
 }
 
-function sendToGoogleSheets(data) {
-    if (!SCRIPT_URL) return;
-    const statusEl = document.getElementById("save-status");
-    if (statusEl) statusEl.textContent = "⏳ Đang đồng bộ dữ liệu...";
+function fetchTotalSubmissions() {
+    const countElem = document.getElementById("dash-count");
+    if (!countElem || !SCRIPT_URL) return;
+    countElem.textContent = "Đang tải...";
 
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        if (statusEl) statusEl.textContent = "✅ Đã đồng bộ kết quả lên Google Sheets thành công!";
-    })
-    .catch(err => {
-        console.error(err);
-        if (statusEl) statusEl.textContent = "⚠️ Không thể tự động gửi dữ liệu (vẫn lưu nội bộ).";
-    });
+    const callbackName = "aiStudyCheckDashboard_" + Date.now();
+    const script = document.createElement("script");
+    script.id = callbackName;
+    script.src = SCRIPT_URL + "?callback=" + encodeURIComponent(callbackName);
+
+    window[callbackName] = function(data) {
+        countElem.textContent = Number(data.total || 0);
+        delete window[callbackName];
+        script.remove();
+    };
+
+    script.onerror = function() {
+        countElem.textContent = "Chưa kết nối";
+        delete window[callbackName];
+        script.remove();
+    };
+
+    document.body.appendChild(script);
 }
 
 function saveCurrentResult() {
@@ -1065,33 +586,13 @@ function saveCurrentResult() {
 
 function openDashboard() {
     showScreen("dashboard");
-    const countEl = document.getElementById("dash-count");
-    if (SCRIPT_URL) {
-        fetch(SCRIPT_URL + "?action=count")
-        .then(res => res.json())
-        .then(data => {
-            if (data && data.count !== undefined) {
-                countEl.textContent = data.count + " lượt";
-            } else {
-                countEl.textContent = "Đã kết nối";
-            }
-        })
-        .catch(() => {
-            countEl.textContent = "Sẵn sàng nhận dữ liệu";
-        });
-    } else {
-        countEl.textContent = "Chưa cấu hình URL";
-    }
+    fetchTotalSubmissions();
 }
 
-function restartQuiz() {
-    startQuiz();
-}
+function restartQuiz() { startQuiz(); }
+function goHome() { showScreen("home"); }
 
-function goHome() {
-    showScreen("home");
-}
+document.addEventListener("DOMContentLoaded", fetchTotalSubmissions);
 </script>
-
 </body>
 </html>
